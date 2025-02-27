@@ -7,7 +7,6 @@
 - **Frontend:**
 
   - **ReactJS** – Dynamic, fast, and what all the cool kids are using.
-  - **Next.js** – Server-side rendering and performance optimizations.
   - **Tailwind CSS** – For sleek, responsive styling.
   - **Framer Motion** – Smooth animations and UI interactions.
 
