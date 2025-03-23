@@ -26,6 +26,7 @@ const Header = ({ isContactVisible, isWorkVisible }) => {
                     <li><a href="#home" onClick={(e) => { e.preventDefault(); scrollTo('home'); }} className="hover:underline underline-offset-8 decoration-2 decoration-dotted">Intro</a></li>
                     <li><a href="#about" onClick={(e) => { e.preventDefault(); scrollTo('about'); }} className="hover:underline underline-offset-8 decoration-2 decoration-dotted">About</a></li>
                     <li><a href="#experience" onClick={(e) => { e.preventDefault(); scrollTo('experience'); }} className="hover:underline underline-offset-8 decoration-2 decoration-dotted">Experience</a></li>
+                    <li><a href="#projects" onClick={(e) => { e.preventDefault(); scrollTo('projects'); }} className="hover:underline underline-offset-8 decoration-2 decoration-dotted">Projects</a></li>
                     <li><a href="#contact" onClick={(e) => { e.preventDefault(); scrollTo('contact'); }} className="hover:underline underline-offset-8 decoration-2 decoration-dotted">Contact</a></li>
                 </ul>
             </nav>

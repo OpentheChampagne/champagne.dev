@@ -349,6 +349,112 @@ const Home = ({ setIsContactVisible, setIsWorkVisible }) => {
                 </div>
             </Section> */}
 
+            <Section id="projects" className="bg-white text-black">
+
+                <div className="container mx-auto px-4">
+                    <h2 className="text-3xl font-serif">Projects.</h2>
+                    <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+
+                    <div className="container mx-auto lg:px-24 xl:px-56 py-12 flex items-center justify-center h-[50vh] ">
+                        <div className="grid h-full w-full grid-cols-1 lg:grid-cols-4 grid-rows-3 gap-3 mx-auto">
+                            <motion.div
+                                className="col-span-1 row-span-1 rounded-xl bg-red-400 p-4"
+                                initial={{ opacity: 0, x: isMobile ? 0 : -100 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: isMobile ? 0 : -100 }}
+                                transition={{ duration: isMobile ? 0.5 : 0.6, ease: "easeOut" }}
+                                viewport={{ margin: "-50px" }}
+                            >
+                                <h2>Project 1</h2>
+                            </motion.div>
+                            <motion.div
+                                className="col-span-1 row-span-1 rounded-xl bg-blue-400 p-4"
+                                initial={{ opacity: 0, y: isMobile ? 0 : -50 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: isMobile ? 0 : -50 }}
+                                transition={{ duration: isMobile ? 0.5 : 0.6, ease: "easeOut", delay: 0.1 }}
+                                viewport={{ margin: "-50px" }}
+                            >
+                                <h2>Project 2</h2>
+                            </motion.div>
+                            <motion.div
+                                className="lg:col-span-2 row-span-1 rounded-xl bg-green-400 p-4"
+                                initial={{ opacity: 0, x: isMobile ? 0 : 100 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: isMobile ? 0 : 100 }}
+                                transition={{ duration: isMobile ? 0.5 : 0.6, ease: "easeOut", delay: 0.2 }}
+                                viewport={{ margin: "-50px" }}
+                            >
+                                <h2>Project 3</h2>
+                            </motion.div>
+                            <motion.div
+                                className="col-span-1 row-span-1 rounded-xl bg-red-400 p-4"
+                                initial={{ opacity: 0, y: isMobile ? 0 : 50 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: isMobile ? 0 : 50 }}
+                                transition={{ duration: isMobile ? 0.5 : 0.6, ease: "easeOut", delay: 0.15 }}
+                                viewport={{ margin: "-50px" }}
+                            >
+                                <h2>Project 4</h2>
+                            </motion.div>
+                            <motion.div
+                                className="lg:col-span-2 row-span-1 rounded-xl bg-green-400 p-4"
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.5, ease: "easeOut", delay: isMobile ? 0.1 : 0.25 }}
+                                viewport={{ margin: "-50px" }}
+                            >
+                                <h2>Project 5</h2>
+                            </motion.div>
+                            <motion.div
+                                className="col-span-1 row-span-1 rounded-xl bg-red-400 p-4"
+                                initial={{ opacity: 0, y: isMobile ? 0 : 60 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: isMobile ? 0 : 60 }}
+                                transition={{ duration: isMobile ? 0.5 : 0.6, ease: "easeOut", delay: isMobile ? 0.15 : 0.3 }}
+                                viewport={{ margin: "-50px" }}
+                            >
+                                <h2>Project 6</h2>
+                            </motion.div>
+
+                            <motion.div
+                                className="lg:col-span-2 row-span-1 rounded-xl bg-green-400 p-4"
+                                initial={{ opacity: 0, x: isMobile ? 0 : -80 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: isMobile ? 0 : -80 }}
+                                transition={{ duration: isMobile ? 0.5 : 0.6, ease: "easeOut", delay: isMobile ? 0.2 : 0.35 }}
+                                viewport={{ margin: "-50px" }}
+                            >
+                                <h2>Project 7</h2>
+                            </motion.div>
+                            <motion.div
+                                className="col-span-1 row-span-1 rounded-xl bg-red-400 p-4"
+                                initial={{ opacity: 0, y: isMobile ? 0 : 40 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: isMobile ? 0 : 40 }}
+                                transition={{ duration: isMobile ? 0.5 : 0.6, ease: "easeOut", delay: isMobile ? 0.25 : 0.4 }}
+                                viewport={{ margin: "-50px" }}
+                            >
+                                <h2>Project 8</h2>
+                            </motion.div>
+                            <motion.div
+                                className="col-span-1 row-span-1 rounded-xl bg-blue-400 p-4"
+                                initial={{ opacity: 0, x: isMobile ? 0 : 60 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: isMobile ? 0 : 60 }}
+                                transition={{ duration: isMobile ? 0.5 : 0.6, ease: "easeOut", delay: isMobile ? 0.3 : 0.45 }}
+                                viewport={{ margin: "-50px" }}
+                            >
+                                <h2>Project 9</h2>
+                            </motion.div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </Section>
+
             <Section id="contact" className="bg-black text-white ">
                 <motion.div
                     ref={contactRef}
