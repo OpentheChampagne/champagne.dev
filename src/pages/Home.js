@@ -218,23 +218,23 @@ const Home = ({ setIsContactVisible, setIsWorkVisible }) => {
                                 }}
                             >
                                 <motion.p
-                                    className="text-[32px] md:text-[36px] leading-[45px] md:leading-[50px] my-4 md:my-8 text-[#000000] font-light"
+                                    className="text-[32px] md:text-[36px] leading-[45px] md:leading-[50px] my-4 md:my-8 text-gray-800 font-light"
                                     variants={{
                                         hidden: { opacity: 0, y: 5 },
                                         visible: { opacity: 1, y: 0 }
                                     }}
                                 >
-                                    Hey there, I'm <span className="text-[#000000]">Felipe 🥀</span>. I believe in <span className="text-[#000000]">elegance, simplicity</span>, and crafting <span className="text-[#000000]">user interfaces</span> that feel as <span className="text-[#000000]">luxurious</span> as they are <span className="text-[#000000]">functional</span>. My work is about bringing <span className="text-[#000000]">bold ideas</span> to life with <span className="text-[#000000]">precision and purpose</span>.
+                                    Hey there, I'm <span className="text-[#000000]">Felipe 🥀</span>. I believe in <span className="text-[#000000]">elegance, precision</span>, and designing <span className="text-[#000000]">digital experiences</span> that feel as <span className="text-[#000000]">refined</span> as they are <span className="text-[#000000]">functional</span>. My work blends <span className="text-[#000000]">clean engineering</span> with <span className="text-[#000000]">thoughtful design</span>, bringing <span className="text-[#000000]">bold ideas</span> to life with <span className="text-[#000000]">clarity and purpose</span>.
                                 </motion.p>
 
                                 <motion.p
-                                    className="text-[32px] md:text-[36px] leading-[45px] md:leading-[50px] my-4 md:my-8 text-[#000000] font-light"
+                                    className="text-[32px] md:text-[36px] leading-[45px] md:leading-[50px] my-4 md:my-8 text-gray-600 font-light"
                                     variants={{
                                         hidden: { opacity: 0, y: 10 },
                                         visible: { opacity: 1, y: 0 }
                                     }}
                                 >
-                                    By day, I'm a <span className="text-[#000000]">Software Engineer</span> at <span className="text-[#000000]">Adweek</span>, where I write <span className="text-[#000000]">high-performance code</span> and develop <span className="text-[#000000]">innovative, impactful digital experiences</span> ✨
+                                    By day, I'm a <span className="text-[#000000]">Software Engineer</span> at <span className="text-[#000000]">ADWEEK</span>, where I build <span className="text-[#000000]">high-impact features</span> for <span className="text-[#000000]">millions of readers</span> and keep our <span className="text-[#000000]">platform performing at its best</span> during <span className="text-[#000000]">live events and breaking news</span>.
                                 </motion.p>
 
                                 <motion.div
@@ -278,7 +278,7 @@ const Home = ({ setIsContactVisible, setIsWorkVisible }) => {
                                 transition={{ duration: 0.8, delay: 0.2 }}
                                 viewport={{ once: true, margin: "-100px" }}
                             >
-                                As a Full-Stack Software Engineer, I design web interfaces that are as elegant as they are intuitive. With expertise in React, PHP, and Tailwind CSS, I transform bold ideas into dynamic, high-performance websites that balance beauty with functionality.
+                                As a Full-Stack Software Engineer, I craft intuitive, high-performance interfaces with React, PHP, and Tailwind CSS. I'm drawn to work that pushes both the technical and creative sides of my brain, and I aim to build software that feels elegant, fast, and intentional.
                             </motion.p>
                             <motion.p
                                 className="font-light text-[24px] md:text-[30px] leading-[40px] md:leading-[35px] text-[#181818] my-8"
@@ -287,7 +287,7 @@ const Home = ({ setIsContactVisible, setIsWorkVisible }) => {
                                 transition={{ duration: 0.8, delay: 0.4 }}
                                 viewport={{ once: true, margin: "-100px" }}
                             >
-                                By day, I'm at Adweek, building innovative digital solutions with precision and purpose. In my free time, I create browser extensions that elevate online experiences and explore ways to merge simplicity with sophistication in everything I build.
+                                At ADWEEK, I build and optimize large-scale media experiences, from live-event platforms to React-based site architecture. In my own projects, I design Chrome extensions that make the web feel smarter, faster, and more human.
                             </motion.p>
                             <motion.p
                                 className="font-light text-[24px] md:text-[30px] leading-[40px] md:leading-[35px] text-[#181818] my-8"
@@ -296,7 +296,7 @@ const Home = ({ setIsContactVisible, setIsWorkVisible }) => {
                                 transition={{ duration: 0.8, delay: 0.6 }}
                                 viewport={{ once: true, margin: "-100px" }}
                             >
-                                When I'm not crafting sleek code or refining designs, you'll find me cruising through New York City on a Citi Bike, savoring Manhattan's finest restaurants, or uncovering inspiration in the latest design trends.
+                                Outside of code, you'll find me cycling through New York City, hunting down good pasta, or drawing inspiration from the city's architecture and design culture.
                             </motion.p>
                         </motion.div>
                         <div className="md:w-1/2 flex justify-center mb-8 md:mb-0 overflow-hidden px-6">
@@ -372,13 +372,13 @@ const Home = ({ setIsContactVisible, setIsWorkVisible }) => {
                             <p className="text-xl font-serif mb-4">Where roots grow deep</p>
                             <div className="space-y-4">
                                 <a
-                                    href="https://github.com/openchampagne"
+                                    href="https://github.com/openthechampagne"
                                     className="block hover:text-gray-300 transition-colors underline underline-offset-8 decoration-2 decoration-dotted hover:decoration-wavy"
                                 >
                                     Github
                                 </a>
                                 <a
-                                    href="https://linkedin.com/in/openchampagne"
+                                    href="https://linkedin.com/in/openthechampagne"
                                     className="block hover:text-gray-300 transition-colors underline underline-offset-8 decoration-2 decoration-dotted hover:decoration-wavy"
                                 >
                                     LinkedIn
