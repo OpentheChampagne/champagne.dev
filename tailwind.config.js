@@ -5,9 +5,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'garamond': ['"ITC Garamond Std Light Condensed"', 'serif'],
-        'sans': ['"ITC Garamond Std Light Condensed"', 'serif'],
-        'serif': ['"ITC Garamond Std Light Condensed"', 'serif'],
+        'garamond': ['"Instrument Serif"', 'serif'],
+        'sans': ['"Instrument Serif"', 'serif'],
+        'serif': ['"Instrument Serif"', 'serif'],
       },
       keyframes: {
         marquee: {

@@ -372,13 +372,13 @@ const Home = ({ setIsContactVisible, setIsWorkVisible }) => {
                             <p className="text-xl font-serif mb-4">Where roots grow deep</p>
                             <div className="space-y-4">
                                 <a
-                                    href="https://github.com/openchampagne"
+                                    href="https://github.com/openthechampagne"
                                     className="block hover:text-gray-300 transition-colors underline underline-offset-8 decoration-2 decoration-dotted hover:decoration-wavy"
                                 >
                                     Github
                                 </a>
                                 <a
-                                    href="https://linkedin.com/in/openchampagne"
+                                    href="https://linkedin.com/in/openthechampagne"
                                     className="block hover:text-gray-300 transition-colors underline underline-offset-8 decoration-2 decoration-dotted hover:decoration-wavy"
                                 >
                                     LinkedIn
