@@ -32,7 +32,7 @@ const CompanyLogo = ({ isActive, company }) => {
             animate={isActive ? "active" : "inactive"}
             layout
         >
-            {company === "adweek" && (
+            {company === "ADWEEK" && (
                 <motion.svg
                     viewBox="0 0 47.041 13.337"
                     className="w-16 h-16 md:w-24 md:h-24"
@@ -208,7 +208,7 @@ const JobSection = ({ id, title, date, isActive, onSectionInView, children }) =>
 };
 
 const WorkContent = () => {
-    const [activeSection, setActiveSection] = React.useState("adweek");
+    const [activeSection, setActiveSection] = React.useState("ADWEEK");
     const { scrollYProgress } = useScroll();
     const timelineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
     const workRef = React.useRef(null);
@@ -259,8 +259,8 @@ const WorkContent = () => {
                         initial={{ height: "0%" }}
                         style={{
                             height: timelineHeight,
-                            background: activeSection === "adweek" ? "#ffffff" : "#86df00",
-                            boxShadow: `0 0 10px ${activeSection === "adweek" ? "#ffffff50" : "#86df0050"}`,
+                            background: activeSection === "ADWEEK" ? "#ffffff" : "#86df00",
+                            boxShadow: `0 0 10px ${activeSection === "ADWEEK" ? "#ffffff50" : "#86df0050"}`,
                         }}
                         transition={{ duration: 0.5 }}
                     />
@@ -268,12 +268,12 @@ const WorkContent = () => {
 
                 {/* Job Sections */}
                 <div className="relative">
-                    <div id="adweek" className="work-section min-h-[60vh] md:min-h-[80vh] pt-8 md:pt-24 pb-12">
+                    <div id="ADWEEK" className="work-section min-h-[60vh] md:min-h-[80vh] pt-8 md:pt-24 pb-12">
                         <JobSection
-                            id="adweek"
-                            title="ADWEEK - Software Engineer"
-                            date="APR 2024 - PRESENT"
-                            isActive={activeSection === "adweek"}
+                            id="ADWEEK"
+                            title="ADWEEK — Software Engineer"
+                            date="APR 2024 – PRESENT"
+                            isActive={activeSection === "ADWEEK"}
                             onSectionInView={onSectionInView}
                         >
                             <motion.p
@@ -283,7 +283,7 @@ const WorkContent = () => {
                                 transition={{ duration: 0.8, delay: 0.2 }}
                                 viewport={{ once: true, margin: "-100px" }}
                             >
-                                At Adweek, I'm the go-to problem solver, transforming challenges into opportunities and delivering digital solutions that leave a mark. I've built sleek, high-performance web experiences that engage millions, working hand-in-hand with editorial and design teams to keep Adweek at the forefront of digital media.
+                                At ADWEEK, I'm the engineer people call when something needs to ship fast or get fixed the right way. I helped launch two of the site's most engaging live editorial experiences: the Super Bowl Insights Hub and a real-time live blog platform, both built under tight deadlines and viewed by millions.
                             </motion.p>
                             <motion.p
                                 className="text-[24px] md:text-[24px] font-light leading-[40px] md:leading-relaxed mt-6 md:mt-12 tracking-wide"
@@ -292,7 +292,7 @@ const WorkContent = () => {
                                 transition={{ duration: 0.8, delay: 0.4 }}
                                 viewport={{ once: true, margin: "-100px" }}
                             >
-                                When it mattered most, I stepped up. The Super Bowl Tracker, once infamous for crashing under demand, is now a rock-solid powerhouse ready to handle anything thrown its way. I uncovered vulnerabilities in a proposed paywall solution that would have cost the company significant revenue, saving the day and future-proofing our digital strategy.
+                                I also rebuilt the ADWEEK.com homepage with React, modernizing the frontend and improving engagement across key sections. During a major production outage, I diagnosed the root cause and delivered the fix that brought the platform back online when it mattered most.
                             </motion.p>
                             <motion.p
                                 className="text-[24px] md:text-[24px] font-light leading-[40px] md:leading-relaxed mt-6 md:mt-12 tracking-wide"
@@ -301,7 +301,7 @@ const WorkContent = () => {
                                 transition={{ duration: 0.8, delay: 0.6 }}
                                 viewport={{ once: true, margin: "-100px" }}
                             >
-                                And when our site faced a major crisis, and things seemed hopeless, I took the reins. Diagnosing the issue and restoring the site, I brought us back online quickly, ensuring business as usual. Whether scaling platforms, solving critical problems, or future-proofing our tech stack, I thrive on making Adweek's digital presence unstoppable.
+                                Whether optimizing performance, improving Core Web Vitals, or stabilizing infrastructure, my goal is simple: keep ADWEEK's digital presence fast, stable, and impossible to ignore.
                             </motion.p>
                         </JobSection>
                     </div>
@@ -309,8 +309,8 @@ const WorkContent = () => {
                     <div id="planit" className="work-section min-h-[60vh] md:min-h-[80vh] pt-12 pb-12">
                         <JobSection
                             id="planit"
-                            title="Planit Agency - Junior Developer"
-                            date="Oct 2021 - Mar 2024"
+                            title="Planit Agency — Junior Developer"
+                            date="OCT 2021 – MAR 2024"
                             isActive={activeSection === "planit"}
                             onSectionInView={onSectionInView}
                         >
@@ -321,7 +321,7 @@ const WorkContent = () => {
                                 transition={{ duration: 0.8, delay: 0.2 }}
                                 viewport={{ once: true, margin: "-100px" }}
                             >
-                                At Planit Agency, I was the digital swiss army knife, transforming bold ideas into stunning digital campaigns.
+                                At Planit, I turned creative vision into clean, interactive web experiences. From 4,500+ GSAP-powered ads for clients like DuPont, SourceAmerica, and the Government of Maryland, to building custom WordPress components styled with Tailwind CSS, I helped brands bring their stories to life on-screen.
                             </motion.p>
                             <motion.p
                                 className="text-[24px] md:text-[24px] font-light leading-[40px] md:leading-relaxed mt-6 md:mt-12 tracking-wide"
@@ -330,16 +330,7 @@ const WorkContent = () => {
                                 transition={{ duration: 0.8, delay: 0.4 }}
                                 viewport={{ once: true, margin: "-100px" }}
                             >
-                                Over 4,500 interactive banner ads? Built and deployed with finesse using GSAP for powerhouse clients like DuPont and the Government of Maryland. WordPress wizardry? Delivered custom components like testimonial sliders, interactive pricing tables, and sleek search results, all styled to perfection with Tailwind CSS.
-                            </motion.p>
-                            <motion.p
-                                className="text-[24px] md:text-[24px] font-light leading-[40px] md:leading-relaxed mt-6 md:mt-12 tracking-wide"
-                                initial={{ opacity: 0 }}
-                                whileInView={{ opacity: 1 }}
-                                transition={{ duration: 0.8, delay: 0.6 }}
-                                viewport={{ once: true, margin: "-100px" }}
-                            >
-                                Oh, and those 25+ monthly HTML email campaigns? They weren't just emails—they were traffic-boosting, conversion-driving works of art. Planit wasn't just work—it was my playground for mastering the craft of digital storytelling.
+                                I also produced 25+ email campaigns a month, each designed to drive traffic, boost engagement, and elevate brand identity. Planit taught me how to work across creative, technical, and marketing teams, and how to make every pixel count.
                             </motion.p>
                         </JobSection>
                     </div>
