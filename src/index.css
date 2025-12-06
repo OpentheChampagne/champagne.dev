@@ -1,9 +1,17 @@
 @font-face {
-  font-family: 'ITC Garamond Std Light Condensed';
-  src: local('ITC Garamond Std Light Condensed'),
-    url('../public/fonts/ITC\ Garamond\ Std\ Light\ Condensed.otf') format('opentype');
-  font-weight: 200;
+  font-family: 'Instrument Serif';
+  src: local('Instrument Serif'),
+    url('./fonts/InstrumentSerif-Regular.ttf') format('truetype');
+  font-weight: 400;
   font-style: normal;
+}
+
+@font-face {
+  font-family: 'Instrument Serif';
+  src: local('Instrument Serif'),
+    url('./fonts/InstrumentSerif-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
 }
 
 @tailwind base;
@@ -11,5 +19,5 @@
 @tailwind utilities;
 
 body {
-  font-family: 'ITC Garamond Std Light Condensed', serif;
+  font-family: 'Instrument Serif', serif;
 }
