@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import BabylonScene from '../components/home/BabylonScene';
 import WorkContent from '../components/home/WorkContent';
+import Footer from '../components/Footer';
 
 const Section = ({ children, className, id }) => (
     <section id={id} className={`min-h-screen flex items-center justify-center ${className}`}>
@@ -71,7 +72,7 @@ const LatestPosts = ({ posts }) => (
     </div>
 );
 
-const Home = ({ setIsContactVisible, setIsWorkVisible }) => {
+const Home = ({ setIsContactVisible, setIsWorkVisible, isContactVisible, isWorkVisible }) => {
     const [latestPosts, setLatestPosts] = useState([]);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const videoRef = useRef(null);
@@ -433,6 +434,10 @@ const Home = ({ setIsContactVisible, setIsWorkVisible }) => {
                     </div>
                 </motion.div>
             </Section>
+
+            <section id="footer" className={`${isContactVisible || isWorkVisible ? 'bg-black' : 'bg-[#F7F6F3]'} py-8`}>
+                <Footer isContactVisible={isContactVisible} isWorkVisible={isWorkVisible} />
+            </section>
         </div >
     );
 };
