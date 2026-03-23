@@ -21,7 +21,7 @@
 - **Interactive 3D Animation** – An interactive champagne bottle spins on the top using Babylon.js.
 - **Minimal & Elegant UI** – Designed with a clean, modern aesthetic using Tailwind CSS.
 - **Blog Component** – Markdown-powered content blog inspired by Daring Fireball. _(still a work in progress so coming soon!)_
-- **Optimized for Speed** – Using Next.js and Cloudflare Pages for performance.
+- **Static hosting on Cloudflare Pages** – Production builds deploy from git and are served as static assets at the edge.
 
 ## Demo
 

@@ -363,10 +363,10 @@ const Home = ({ setIsContactVisible, setIsWorkVisible, isContactVisible, isWorkV
                         <p className="text-xl md:text-2xl font-serif">Let's connect and make ideas bloom</p>
 
                         <a
-                            href="mailto:hello@champagne.dev"
+                            href="mailto:ch@mpagne.dev"
                             className="block text-[40px] hover:text-gray-300 transition-colors underline underline-offset-8 decoration-2 decoration-dotted hover:decoration-wavy"
                         >
-                            hello@champagne.dev
+                            ch@mpagne.dev
                         </a>
 
                         <div className="mt-12">
