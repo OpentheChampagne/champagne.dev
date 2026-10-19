@@ -1,0 +1,90 @@
+---
+import '../styles/notes.css';
+import { getPosts, formatDate, formatShortDate } from '../lib/posts';
+// Explicit preview prop; published notes remain untouched.
+const previewEmpty = Astro.props.previewEmpty === true;
+// No link while there are no notes, or on /notes itself (the page you're already on).
+const onNotesPage = Astro.url.pathname.replace(/\/$/, '') === '/notes';
+const [lead, ...rest] = previewEmpty ? [] : (await getPosts()).slice(0, 3);
+// Where each card lands on the 12-column board: newest is the legal pad, the next two are index cards.
+const spots = [
+  { c: '1 / 8', r: '1 / 12', rot: '-1.4deg', mw: '96%' },
+  { c: '8 / 13', r: '4 / 11', rot: '2.4deg', mw: '84%' },
+  { c: '3 / 9', r: '12 / 18', rot: '-2.6deg', mw: '84%' },
+];
+---
+<section id="notes" class="original-section nb-home" aria-labelledby="notes-title">
+  <div class="original-container nb-notebook">
+    <div class="nb-intro">
+      <h2 id="notes-title" class="nb-hed">Notes<em>.</em></h2>
+      <p class="nb-dek">Things I’ve learned, and a few thoughts along the way.</p>
+      {lead && !onNotesPage && <a class="original-link nb-all" href="/notes">Browse all notes →</a>}
+    </div>
+
+    <div class:list={["nb-board", { "nb-board-empty": !lead }]}>
+      {lead ? <>
+        <article class="nb-piece" style={`--c: ${spots[0].c}; --r: ${spots[0].r}; --rot: ${spots[0].rot}; --z: 2; --i: 0; --mw: ${spots[0].mw};`}>
+          <a class="nb-legal" href={`/notes/${lead.id}`}>
+            <time datetime={lead.data.date.toISOString()} title={formatDate(lead.data.date)}>{formatShortDate(lead.data.date, lead.id)}</time>
+            <h3>{lead.data.title}</h3>
+            <p>{lead.data.description}</p>
+            <span class="nb-read">Read the note →</span>
+          </a>
+        </article>
+        {rest.map((post, i) => {
+          const spot = spots[i + 1];
+          return <article class="nb-piece" style={`--c: ${spot.c}; --r: ${spot.r}; --rot: ${spot.rot}; --z: ${3 + i}; --i: ${i + 1}; --mw: ${spot.mw};`}>
+            <span class="nb-tape" style={`--t: ${i ? 5 : -4}deg`} aria-hidden="true"></span>
+            <a class="nb-card" href={`/notes/${post.id}`}>
+              <time datetime={post.data.date.toISOString()} title={formatDate(post.data.date)}>{formatShortDate(post.data.date, post.id)}</time>
+              <h3>{post.data.title}</h3>
+              <p>{post.data.description}</p>
+              <span class="nb-read">Read →</span>
+            </a>
+          </article>;
+        })}
+      </> : <>
+        <div class="nb-roadwork" aria-hidden="true"><picture><source srcset="/assets/construction-sign.webp" type="image/webp" /><img src="/assets/construction-sign.png" alt="" width="757" height="756" loading="lazy" /></picture><span class="nb-beacon"></span></div>
+        <div class="nb-piece nb-still nb-empty-sticky" style="--c: 3 / 9; --r: 2 / 8; --rot: -5deg; --z: 2; --mw: 75%;">
+          <div class="nb-sticky"><h3>No notes here yet.</h3><p>Coming soon.<br />Probably after some coffee.</p></div>
+        </div>
+      </>}
+    </div>
+  </div>
+</section>
+<script>
+  // The empty-board sticky slides out from under the road sign as the board scrolls into view. Browsers with CSS scroll
+  // timelines scrub it in notes.css; elsewhere this drives the same motion over the same range: from 10% into view
+  // until the sticky is just past the middle of the screen. Either way, the start point is measured here.
+  const sticky = document.querySelector<HTMLElement>('.nb-board-empty .nb-empty-sticky');
+  const sign = document.querySelector<HTMLElement>('.nb-board-empty .nb-roadwork');
+  if (sticky && sign) {
+    const board = sticky.parentElement!;
+    // Layout positions (offset*), so neither element's own transform skews the measurement.
+    const measure = () => {
+      sticky.style.setProperty('--from-x', `${sign.offsetLeft + sign.offsetWidth / 2 - (sticky.offsetLeft + sticky.offsetWidth / 2)}px`);
+      sticky.style.setProperty('--from-y', `${sign.offsetTop + sign.offsetHeight / 2 - (sticky.offsetTop + sticky.offsetHeight / 2)}px`);
+    };
+    measure();
+    addEventListener('resize', measure);
+    const native = CSS.supports('animation-timeline: view()') && CSS.supports('animation-range: entry');
+    if (!native && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const rot = parseFloat(getComputedStyle(sticky).getPropertyValue('--rot')) || 0;
+      let queued = false;
+      const update = () => {
+        queued = false;
+        const top = board.getBoundingClientRect().top + sticky.offsetTop;
+        const start = innerHeight - sticky.offsetHeight * 0.1, end = innerHeight * 0.45;
+        const t = Math.min(1, Math.max(0, (start - top) / (start - end)));
+        const e = 1 - (1 - t) ** 3;
+        const x = parseFloat(sticky.style.getPropertyValue('--from-x')), y = parseFloat(sticky.style.getPropertyValue('--from-y'));
+        sticky.style.opacity = String(Math.min(1, t / 0.18));
+        sticky.style.transform = `translate(${x * (1 - e)}px, ${y * (1 - e)}px) rotate(${14 + (rot - 14) * e}deg)`;
+      };
+      const queue = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
+      addEventListener('scroll', queue, { passive: true });
+      addEventListener('resize', queue);
+      update();
+    }
+  }
+</script>

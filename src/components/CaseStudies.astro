@@ -1,0 +1,60 @@
+---
+import CaseStudyBody from './CaseStudyBody.astro';
+import { caseStudies } from '../data/caseStudies';
+import '../styles/case-studies.css';
+---
+{caseStudies.map(study => <dialog id={study.id} class="case-dialog" aria-labelledby={`${study.id}-title`} closedby="any">
+  <div class="case-dialog-bar"><span>ADWEEK</span><form method="dialog"><button class="case-close" autofocus aria-label="Close case study">Close <span aria-hidden="true">×</span></button></form></div>
+  <div class="case-dialog-body">
+    <CaseStudyBody study={study} />
+  </div>
+</dialog>)}
+<script>
+  // A case study opens in a dialog on the homepage, and the address bar shows a link to it (/#<id>).
+  // Opening that link loads the homepage with the dialog open; Back and Forward close and reopen it.
+  const pageTitle = document.title;
+  const dialogFor = (hash: string) => hash.length > 1 ? document.querySelector<HTMLDialogElement>(`dialog.case-dialog[id="${CSS.escape(hash.slice(1))}"]`) : null;
+  let opener: HTMLElement | null = null;
+  const open = (dialog: HTMLDialogElement) => {
+    if (dialog.open) return;
+    document.querySelectorAll<HTMLDialogElement>('dialog.case-dialog[open]').forEach(other => other.close());
+    dialog.showModal();
+    document.title = `${dialog.querySelector('.case-title')?.textContent?.replace(/\.$/, '')} — Felipe Castillo`;
+  };
+  document.querySelectorAll<HTMLElement>('[data-case-open]').forEach(link => {
+    const dialog = document.getElementById(link.dataset.caseOpen!) as HTMLDialogElement | null;
+    if (!dialog) return;
+    link.addEventListener('click', event => {
+      // Let modified clicks open the link in a new tab, where it opens the dialog on load.
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+      event.preventDefault();
+      opener = link;
+      open(dialog);
+      history.pushState({ case: dialog.id }, '', `#${dialog.id}`);
+    });
+  });
+  document.querySelectorAll<HTMLDialogElement>('dialog.case-dialog').forEach(dialog => {
+    dialog.addEventListener('close', () => {
+      dialog.querySelectorAll('video').forEach(video => video.pause());
+      document.title = pageTitle;
+      // Clear the link from the address bar: step back over the entry we pushed, or replace it for a shared link.
+      if (location.hash === `#${dialog.id}`) history.state?.case === dialog.id ? history.back() : history.replaceState(null, '', location.pathname + location.search);
+      (opener ?? document.querySelector<HTMLElement>(`a.case-open[data-case-open="${dialog.id}"]`))?.focus({ preventScroll: !!opener });
+      opener = null;
+    });
+    if (!('closedBy' in HTMLDialogElement.prototype)) {
+      dialog.addEventListener('click', event => {
+        if (event.target !== dialog) return;
+        const box = dialog.getBoundingClientRect();
+        if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) dialog.close();
+      });
+    }
+  });
+  const sync = () => {
+    const target = dialogFor(location.hash);
+    if (target) open(target);
+    else document.querySelectorAll<HTMLDialogElement>('dialog.case-dialog[open]').forEach(dialog => dialog.close());
+  };
+  addEventListener('popstate', sync);
+  sync();
+</script>

@@ -1,0 +1,25 @@
+/* Source order also controls the reading and keyboard order. */
+.features.work-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.work-grid>.work-wide{grid-column:span 2}
+.work-grid .case-card{height:100%}
+.work-grid .case-open{display:flex;flex-direction:column}
+.work-grid .case-visual,.work-grid .vignette{height:370px;aspect-ratio:auto;width:100%;flex:none;box-sizing:border-box}
+.work-grid .case-card-copy,.work-grid .feature-copy{flex:1;display:flex;flex-direction:column;padding:22px 16px 24px}
+.work-grid .feature-copy h3,.work-grid .case-card h3{font:400 32px/1.08 var(--serif);letter-spacing:-.025em;margin:0 0 12px}
+.work-grid .feature-copy p,.work-grid .case-card p{font:14px/1.6 var(--sans,system-ui);color:var(--muted);margin:0 0 20px;max-width:36em}
+.work-grid .case-read{margin-top:auto;padding-top:12px}
+
+.work-grid .case-cover{padding:24px}
+.work-grid .case-cover>span{font-size:42px}
+@media(max-width:999px){.features.work-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.work-grid>.work-wide{grid-column:auto}.work-grid .feature-copy h3,.work-grid .case-card h3{font-size:29px}}
+@media(max-width:639px){.features.work-grid{grid-template-columns:minmax(0,1fr)}}
+/* Keep complete product windows visible inside the shared illustration frame. */
+.work-grid .case-home .homepage-comparison{width:min(100%,480px);align-self:start}
+
+
+.work-grid .extension-meta{display:flex;flex-wrap:wrap;gap:8px 16px;font:12px/1.4 var(--sans,system-ui);color:var(--muted);margin:0 0 18px}
+.extension-meta a{color:#486332;text-decoration:underline dotted;text-underline-offset:3px}
+.work-grid .feature-links{margin-top:auto;padding-top:12px}
+
+
+

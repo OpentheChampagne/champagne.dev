@@ -1,0 +1,62 @@
+---
+import '../styles/features.css';
+import ExtensionPreview from './ExtensionPreview.astro';
+import CaseStudies from './CaseStudies.astro';
+import CaseCard from './CaseCard.astro';
+import { caseStudies } from '../data/caseStudies';
+import '../styles/work-grid.css';
+import MoreProjectPreviews from './MoreProjectPreviews.astro';
+// Public Chrome Web Store snapshots checked 2026-10-12; rounded conservatively.
+// These are store user counts, not DAU/MAU. Omit counts where unverified.
+const extensionUsers: Record<string, string> = { paste: '2,000', research: '10,000', mail: '400+' };
+const features = [
+ { kind: 'paste', product: 'PackageTrack', title: 'Paste. Track. Exhale.', description: 'Keep your packages in one place, from shipping label to doorstep. One less thing to keep in your head.', url: 'https://packagetrack.com', linkLabel: 'Website', store: 'https://chromewebstore.google.com/detail/packagetrack-package-trac/hoipjclokbelgffomjhhiflphegpmlpe' },
+ { kind: 'summary', product: 'Shortcuts for Muse', title: 'Less scrolling, more knowing.', description: 'Give Muse the page you’re on and a shortcut for what comes next: a summary, some research, or an everyday task.', url: 'https://shortcutsformuse.com', linkLabel: 'Website', store: 'https://chromewebstore.google.com/detail/ineckbmdfjilecnomcnijohemipiaohm' },
+ { kind: 'research', product: 'Enhance Gemini', title: 'Gemini, a shortcut away.', description: 'A question, a draft, a page to make sense of. Bring up Gemini with Alt+G and get started with a reusable prompt.', url: 'https://github.com/OpentheChampagne/enhance-gemini', linkLabel: 'GitHub', store: 'https://chromewebstore.google.com/detail/hengddlmmobpckpmaalbmdlofpiljnon' },
+ { kind: 'mail', product: 'iCloud Mail Notifier', title: 'Your inbox, at a glance.', description: 'A little less inbox checking. See your unread iCloud mail at a glance, and open your inbox in one click.', url: 'https://github.com/OpentheChampagne/icloud-menu', linkLabel: 'GitHub', store: 'https://chromewebstore.google.com/detail/anefcldgailbdienbkcalplbcmkkmeci' },
+];
+const work = [
+ { study: caseStudies[0], wide: true },
+ { feature: features[0] },
+ { feature: features[1] },
+ { study: caseStudies[1], wide: true },
+ { feature: features[3] },
+ { study: caseStudies[2] },
+ { feature: features[2] },
+];
+---
+<ul class="features work-grid" id="feature-grid">
+  {work.map(item => <li class:list={['feature-entry', { 'work-wide': item.wide }]}>
+    {item.study ? <CaseCard study={item.study} /> : item.feature && ((feature) => <>
+    <article class="feature-card">
+      <div class:list={['vignette', `v-${feature.kind}`]} aria-hidden="true">
+        {feature.kind === 'mail' ? <MoreProjectPreviews kind={feature.kind} /> : <ExtensionPreview kind={feature.kind} />}
+      </div>
+      <div class="feature-copy"><h3>{feature.product}</h3><div class="extension-meta"><span>Browser extension</span>{extensionUsers[feature.kind] && <a href={feature.store} title="Users listed on the Chrome Web Store · checked October 2026">{extensionUsers[feature.kind]} users</a>}</div><p>{feature.description}</p><div class="feature-links"><a href={feature.url} aria-label={`${feature.product} ${feature.linkLabel}`}>{feature.linkLabel} <span aria-hidden="true">↗</span></a>{feature.store && <a href={feature.store} aria-label={`${feature.product} on Chrome Web Store`}>Chrome Web Store <span aria-hidden="true">↗</span></a>}</div></div>
+    </article>
+    </>)(item.feature)}
+  </li>)}
+</ul>
+<CaseStudies />
+<script>
+  const grid = document.querySelector<HTMLElement>('#feature-grid');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  let frame = 0;
+  let pending: { card: HTMLElement; x: number; y: number } | null = null;
+  grid?.addEventListener('pointermove', (event) => {
+    if (reduced.matches || !['mouse', 'pen'].includes(event.pointerType)) return;
+    const card = (event.target as HTMLElement).closest<HTMLElement>('.feature-card');
+    if (!card) return;
+    pending = { card, x: event.clientX, y: event.clientY };
+    if (frame) return;
+    frame = requestAnimationFrame(() => {
+      frame = 0;
+      if (!pending || reduced.matches) return;
+      const { card, x, y } = pending;
+      const rect = card.getBoundingClientRect();
+      // One style-attribute write per frame for both coordinates.
+      card.setAttribute('style', `--x:${x - rect.left}px;--y:${y - rect.top}px`);
+      pending = null;
+    });
+  }, { passive: true });
+</script>

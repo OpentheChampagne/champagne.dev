@@ -1,0 +1,51 @@
+---
+import Base from '../../layouts/Base.astro';
+import HomeNotes from '../../components/HomeNotes.astro';
+import '../../styles/notes.css';
+import { getPosts, formatDate } from '../../lib/posts';
+const posts = await getPosts();
+---
+<Base title="Notes — Champagne.dev" description="Things I’ve learned, and a few thoughts along the way. Notes from Felipe Castillo.">
+{posts.length ? <section class="original-container notes-archive" aria-labelledby="archive-title">
+  <header class="archive-heading">
+    <h1 id="archive-title" class="nb-hed">Notes<em>.</em></h1>
+    <div class="archive-intro"><p class="nb-dek">Things I’ve learned, and a few thoughts along the way.</p><a class="original-link" href="/rss.xml">Subscribe via RSS ↗</a></div>
+  </header>
+  <div class="archive-sheets">
+    {posts.map((post, i) => <article class:list={['archive-sheet', { 'archive-legal': i === 0 }]}>
+      {i > 0 && <span class="nb-tape" aria-hidden="true"></span>}
+      <a href={`/notes/${post.id}`} class="archive-note">
+        <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+        <h2>{post.data.title}</h2>
+        <p>{post.data.description}</p>
+        <span class="archive-read">Read note <span aria-hidden="true">→</span></span>
+      </a>
+    </article>)}
+  </div>
+</section> : <div class="archive-empty"><HomeNotes /></div>}
+</Base>
+<style>
+.notes-archive { padding-block:130px 110px; min-height:85svh; }
+.archive-heading { margin-bottom:48px; padding-bottom:32px; border-bottom:1px solid #cfc7b580; }
+.archive-heading h1 { font-size:clamp(76px,8vw,112px); margin:0 0 24px; }
+.archive-intro { display:flex; align-items:flex-end; justify-content:space-between; gap:28px; }
+.archive-intro .nb-dek { max-width:660px; font-size:clamp(22px,2vw,27px); line-height:1.4; text-wrap:pretty; }
+.archive-intro > a { flex:none; font-size:17px; margin-bottom:5px; color:var(--nb-ink-2); }
+.archive-sheets { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:32px; align-items:start; padding:8px 5px; }
+.archive-sheet { position:relative; background:#fdfcf8; filter:var(--nb-shadow); transform:rotate(.7deg); }
+.archive-sheet:nth-child(3n) { transform:rotate(-1deg); margin-top:25px; background:#f2efe7; }
+.archive-sheet:nth-child(3n + 2) { margin-top:12px; }
+.archive-sheet::after { content:""; position:absolute; inset:auto 0 0; height:8px; background:linear-gradient(#0000,#54452b08); pointer-events:none; }
+.archive-legal { background:#fbf4c8; transform:rotate(-1deg); }
+.archive-legal::before { content:""; position:absolute; inset:0 0 auto; height:22px; background:radial-gradient(circle,var(--nb-paper) 0 3px,transparent 3.5px) 0 50% / 20px 22px repeat-x,#e9dfab; }
+.archive-note { display:flex; flex-direction:column; min-height:390px; padding:48px 30px 28px; text-decoration:none; color:var(--nb-ink); }
+.archive-note time { font:400 13px/1.4 var(--sans); color:var(--nb-ink-2); }
+.archive-note h2 { font:400 clamp(29px,2.7vw,40px)/1.06 var(--serif); letter-spacing:-.015em; margin:24px 0 18px; text-wrap:pretty; }
+.archive-note p { font:400 18px/1.5 var(--nb-body); color:var(--nb-ink-2); margin:0 0 32px; }
+.archive-read { margin-top:auto; padding-top:18px; border-top:1px solid #665c4026; font:700 25px/1.2 var(--nb-hand); color:var(--nb-accent); display:flex; justify-content:space-between; }
+.archive-note:focus-visible { outline:2px solid var(--nb-accent); outline-offset:6px; }
+.archive-empty { padding:70px 0; }
+@media(hover:hover) and (prefers-reduced-motion:no-preference) { .archive-sheet { transition:transform .3s ease; }.archive-sheet:hover { transform:rotate(0) translateY(-4px); } }
+@media(max-width:1000px) { .archive-sheets { grid-template-columns:repeat(2,minmax(0,1fr)); }.archive-sheet:nth-child(3n) { margin-top:0; } }
+@media(max-width:640px) { .notes-archive { padding:125px 24px 80px; }.archive-heading { margin-bottom:40px; padding-bottom:26px; }.archive-intro { flex-direction:column; align-items:flex-start; gap:22px; }.archive-sheets { grid-template-columns:minmax(0,1fr); gap:36px; }.archive-sheet:nth-child(n) { margin-top:0; }.archive-note { min-height:310px; padding:42px 26px 26px; }.archive-note h2 { font-size:34px; } }
+</style>

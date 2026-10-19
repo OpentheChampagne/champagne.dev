@@ -1,0 +1,148 @@
+/* The existing Champagne.dev identity; product UI styling stays inside the bento. */
+:root { --bg:#f7f6f3; --ink:#282828; --muted:#626262; --accent:#424242; --accent-soft:#e6e6e2; --line:#dededb; }
+body { font-family:var(--serif); }
+/* Section links target the headings, so a jump lands each heading ~40px under the 73px header. */
+html { scroll-padding-top:112px; }
+.original-container { width:100%; margin-inline:auto; padding-inline:16px; }
+.original-header { position:fixed; inset:0 0 auto; z-index:50; padding:16px 0; border-bottom:1px solid #dededb; background:#f7f6f3; color:#000; }
+.header-inner { display:flex; align-items:center; justify-content:space-between; gap:24px; }
+.original-wordmark { font-size:24px; white-space:nowrap; }
+.original-header nav { font-size:20px; gap:16px; }
+.original-header nav [aria-current] { color:inherit; text-decoration:underline 1.5px; text-underline-offset:6px; }
+.original-header a:hover { text-decoration:underline dotted 2px; text-underline-offset:8px; }
+.original-header.on-dark { background:#000; color:#fff; border-color:#374151; }
+.original-section { min-height:100svh; display:flex; align-items:center; padding-block:90px 55px; }
+.intro-grid { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:0; }
+.intro-copy { padding-inline:16px; }
+.intro-copy h1,.intro-copy p { font-family:var(--serif); font-size:30px; font-weight:400; letter-spacing:normal; line-height:35px; margin:32px 0; }
+.intro-copy h1 { color:#282828; }
+.intro-copy p { color:#282828; }
+/* The first paragraph sits still beside the bottle; the second and the link settle in after it. */
+@media (prefers-reduced-motion: no-preference) {
+  .intro-copy .intro-lede + p, .intro-copy .learn-more { animation:intro-in .9s cubic-bezier(.2,.7,.2,1) both; }
+  .intro-copy .intro-lede + p { animation-delay:.4s; }
+  .intro-copy .learn-more { animation-delay:.65s; }
+}
+@keyframes intro-in { from { opacity:0; transform:translateY(6px); } }
+.intro-copy .hero-title { font:400 clamp(64px,8vw,124px)/.92 var(--serif); letter-spacing:-.025em; color:#1d1c19; margin:0 0 28px; text-wrap:balance; }
+.original-link { text-decoration:underline dotted 2px; text-underline-offset:8px; }
+.original-link:hover { text-decoration-style:wavy; }
+.learn-more { font-size:40px; }
+.spinner-frame { align-self:center; }
+.spinner-scene { height:500px; background:none; }
+
+.original-heading { font:400 clamp(56px,7vw,104px)/.92 var(--serif); letter-spacing:-.025em; margin:0 0 18px; text-wrap:balance; }
+/* Italic subtitle under a section heading, matching the Notes section. */
+.section-dek { margin:0 0 48px; font:italic 400 clamp(20px,2vw,24px)/1.38 Newsreader, Georgia, "Times New Roman", serif; color:var(--ink); max-width:40ch; text-wrap:pretty; }
+.about-grid { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:32px; }
+.about-copy p { font-size:30px; line-height:35px; margin-block:32px; color:#181818; }
+.original-photo { padding:24px; display:flex; justify-content:center; }
+.original-photo img { width:auto; max-width:100%; height:500px; object-fit:cover; border:18px solid white; border-bottom-width:64px; /* Polaroid: deep bottom bezel */ border-radius:4px; box-shadow:0 4px 6px #0002; }
+/* Taped photo: tape on top, sticky note tucked under the corner, label-maker strip on the side. */
+/* A pile of prints: the first sets the size, the others lie on it. The pulled print lifts up and left (directions that never add page scroll). */
+.photo-pile { position:relative; z-index:1; isolation:isolate; display:block; width:100%; padding:0; border:0; background:none; font:inherit; color:inherit; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+.photo-pile:focus-visible { outline:2px solid var(--ink); outline-offset:12px; }
+.photo-pile img { display:block; position:relative; transition:transform .42s cubic-bezier(.3,.7,.3,1); } /* relative so z-index stacks the in-flow first print too */
+.photo-pile img + img { position:absolute; inset:0; width:100%; height:100%; }
+.photo-pile [data-slot="0"] { z-index:3; }
+.photo-pile [data-slot="1"] { z-index:2; transform:translate(-14px,8px) rotate(-6deg); }
+.photo-pile [data-slot="2"] { z-index:1; transform:translate(12px,4px) rotate(5deg); }
+/* Shuffle: lift the top print and slide it clear of the pile, drop it behind, then tuck it in at the back corner (slot 2's pose). */
+.photo-pile .is-shuffling { animation:pile-shuffle .95s both; } /* SHUFFLE_MS in index.astro matches */
+@keyframes pile-shuffle {
+  0% { transform:none; z-index:4; animation-timing-function:cubic-bezier(.4,0,.2,1); }
+  20% { transform:translate(40%,-6%) rotate(9deg) scale(1.04); z-index:4; box-shadow:0 22px 34px #0003; animation-timing-function:cubic-bezier(.2,0,.4,1); }
+  /* Clear of the pile, nearly straight, so where they still meet is only white border: the drop behind doesn't show. */
+  42% { transform:translate(104%,-3%) rotate(3deg); z-index:4; box-shadow:0 14px 24px #0002; animation-timing-function:linear; }
+  43% { transform:translate(104%,-3%) rotate(3deg); z-index:0; animation-timing-function:cubic-bezier(.3,.7,.3,1); }
+  100% { transform:translate(12px,4px) rotate(5deg); z-index:0; box-shadow:0 4px 6px #0002; }
+}
+/* The slid-out print can pass the screen edge; clip it without adding sideways scroll. */
+section[aria-labelledby="about"] { overflow-x:clip; }
+@media(prefers-reduced-motion:reduce){ .photo-pile img { transition:none; animation:none; } }
+.taped-photo { position:relative; margin:0; width:fit-content; max-width:88%; transform:rotate(8deg); }
+.sticky-note { position:absolute; z-index:2; left:-56px; bottom:-44px; width:200px; padding:18px 18px 22px; background:#f3d9e4; color:#3a1d2a; font:700 28px/1.05 Caveat, "Bradley Hand", cursive; transform:rotate(-13deg); box-shadow:inset 0 -14px 18px -14px rgb(120 60 80 / .25); filter:drop-shadow(0 1px .5px rgb(45 35 15 / .22)) drop-shadow(0 9px 10px rgb(45 35 15 / .14)); }
+.sticky-note small { display:block; margin-top:8px; font-size:.72em; font-weight:500; opacity:.8; }
+.label-tape { position:absolute; z-index:2; right:-30px; bottom:34px; padding:7px 14px 6px; background:#1f2f1a; color:#eef2ea; border-radius:2px; font:700 12px/1 var(--sans, Inter, system-ui, sans-serif); letter-spacing:.22em; text-transform:uppercase; white-space:nowrap; transform:rotate(-14deg); text-shadow:0 1px 0 rgb(0 0 0 / .45), 0 -1px 0 rgb(255 255 255 / .18); filter:drop-shadow(0 2px 3px rgb(45 35 15 / .25)); }
+.dark-section { background:#000; color:#fff; --line:#374151; }
+.experience-content { padding-inline:48px; padding-top:40px; }
+.original-job { display:grid; grid-template-columns:1fr 2fr; gap:64px; padding:70px 64px; border-left:1px solid #333; min-height:80vh; }
+.job-label h3 { font-size:32px; letter-spacing:.025em; line-height:1.35; }
+.job-label p { font:400 15px/1.5 var(--sans,system-ui); color:#9ca3af; margin-top:6px; }
+.job-label h3 + p { font-weight:600; font-size:13px; letter-spacing:.08em; margin-top:10px; }
+.job-label { align-self:start; position:sticky; top:100px; }
+.job-copy { max-width:480px; margin-left:32px; }
+.job-copy p { color:#fff; font-size:24px; line-height:1.625; letter-spacing:.025em; margin-top:32px; }
+/* Project names in the experience copy open their case study. */
+.case-mention { color:inherit; text-decoration:none; padding:0 .1em; margin:0 -.1em; background:linear-gradient(rgb(187 206 151 / .32), rgb(187 206 151 / .32)) 0 100% / 100% .42em no-repeat; transition:background-size .25s ease; cursor:pointer; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
+.case-mention:hover, .case-mention:focus-visible { background-size:100% 100%; }
+.case-mention:focus-visible { outline:2px solid #bbce97; outline-offset:2px; }
+.company-logo { display:grid; place-items:center; width:128px; height:128px; border-radius:50%; background:#333; margin-top:16px; }
+.company-logo img { width:75%; max-height:44%; object-fit:contain; }
+.company-logo { transition:background-color .2s, transform .2s; }
+.company-logo:hover, .company-logo:focus-visible { background:#444; transform:scale(1.04); }
+.company-logo:focus-visible { outline:2px solid #bbce97; outline-offset:3px; }
+.projects-section .original-container { padding-inline:32px; }
+/* Featured projects stay light in dark mode; site.css would otherwise darken these three. */
+.projects-section { color-scheme:light; --surface:#fffefa; --inset:#efeee9; --light:rgb(222 234 192 / .35); }
+.projects-section .features { font-family:var(--sans); }
+.projects-section .feature-copy h3 { font-family:var(--serif); }
+
+.original-contact { display:grid; grid-template-columns:1fr 1.7fr; align-items:center; padding-inline:24px; }
+section[aria-labelledby="contact"] { overflow:hidden; }
+.original-contact > div:first-child { position:relative; z-index:1; }
+/* Contact, set like a magazine sign-off. */
+.original-contact .contact-title { font:400 clamp(56px,7vw,104px)/.95 var(--serif); letter-spacing:-.02em; color:#fff; margin:0 0 36px; text-wrap:balance; }
+.contact-title em { font-style:italic; color:inherit; }
+.contact-address { display:block; width:fit-content; font:400 clamp(32px,3.8vw,52px)/1.15 var(--serif); color:#fff; }
+.original-contact .roots { margin:36px 0 28px; font:italic 400 28px/1.2 var(--serif); color:#9ca3af; }
+.socials { display:grid; grid-template-columns:repeat(2, max-content); gap:14px 48px; }
+.social { font-size:24px; color:#fff; }
+.social > span { font:400 .6em var(--sans,system-ui); vertical-align:.3em; margin-left:.1em; }
+.rose-container video { display:block; width:125%; max-width:none; height:auto; margin:-14% 0 0 -12%; }
+.rose-container { min-width:0; text-align:center; }
+#rose-toggle { background:none; border:0; border-bottom:1px dotted #aaa; color:#ccc; font-size:14px; cursor:pointer; }
+/* Footer: a toast to end on (back to the top), then a quiet line of credits. Warm tones to match the cream-and-ink palette. */
+.original-footer { background:#000; color:#b3ab9f; padding:18px 16px; border-top:1px solid #f7f6f31a; }
+.original-footer>div { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:6px 24px; }
+.footer-toast { display:inline-flex; align-items:baseline; gap:.32em; font:400 17px/1.4 var(--serif); order:1; color:#f7f6f3; text-decoration:none; }
+.footer-glass { display:inline-block; font-size:.8em; transform-origin:50% 90%; }
+.footer-up { display:inline-block; font:400 .7em var(--sans, system-ui); }
+.footer-toast:focus-visible { outline:2px solid #f7f6f3; outline-offset:8px; border-radius:2px; }
+@media(hover:hover) and (prefers-reduced-motion:no-preference) {
+  .footer-glass, .footer-up { transition:transform .35s cubic-bezier(.3,1.6,.5,1); }
+  .footer-toast:hover .footer-glass { transform:rotate(-14deg); } /* a little clink */
+  .footer-toast:hover .footer-up { transform:translateY(-.35em); }
+}
+.footer-short { display:none; }
+@media(max-width:480px){ .footer-long { display:none; } .footer-short { display:inline; } }
+.footer-fine { margin:0; font-size:17px; color:#c9c2b6; } /* set here: the global p colour (#626262) is too dim on black */
+.footer-fine a > span { font:400 .65em var(--sans, system-ui); vertical-align:.25em; }
+.footer-fine a { color:inherit; text-underline-offset:5px; text-decoration-thickness:1px; }
+.footer-fine a:hover { color:#f7f6f3; }
+.journal-page,.article { padding-top:130px; }
+@media(min-width:640px){.original-container{max-width:640px}}
+@media(min-width:768px){.original-container{max-width:768px}}
+@media(min-width:1024px){.original-container{max-width:1024px}}
+@media(min-width:1280px){.original-container{max-width:1280px}}
+@media(min-width:1536px){.original-container{max-width:1536px}}
+@media(max-width:1023px){.intro-copy h1,.intro-copy p{font-size:26px}.original-job{gap:32px;padding-inline:24px}.job-copy{margin-left:0}.about-copy p{font-size:26px}.original-photo img{height:400px;border-width:16px 16px 52px}.original-header nav{font-size:17px;gap:12px}}
+@media(max-width:767px){.header-inner{flex-wrap:wrap;gap:8px}.original-header nav{width:100%;justify-content:space-between;gap:8px;font-size:16px}.original-wordmark{font-size:22px}.original-section{padding-top:115px;padding-bottom:50px}.intro-grid{display:flex;flex-direction:column-reverse}.intro-copy{padding:0}.intro-copy h1,.intro-copy p{font-size:24px;line-height:40px;margin:24px 0}.learn-more{font-size:24px}.spinner-frame{width:100%}.spinner-scene{height:360px}.about-grid{grid-template-columns:1fr}.about-copy p{font-size:24px;line-height:40px}.original-photo img{height:auto;width:100%;max-width:340px;border-width:12px 12px 40px}.taped-photo{width:min(340px,80%);margin-bottom:60px}.sticky-note{left:-20px;bottom:-96px;width:160px;font-size:23px}.label-tape{right:-12px;top:4px;bottom:auto}.experience-content{padding-inline:24px}.original-job{grid-template-columns:1fr;gap:20px;padding:24px 18px 60px;min-height:60vh}.job-label{position:static}.job-label h3{font-size:28px}.job-copy{max-width:none}.job-copy p{font-size:24px;line-height:40px;margin-top:24px}.company-logo{width:96px;height:96px}.projects-section .original-container{padding-inline:18px}.original-contact{grid-template-columns:1fr;gap:30px}.original-contact h2{font-size:40px}.original-contact p{font-size:20px}.original-footer{padding:16px}.footer-fine{font-size:16px}.footer-toast{font-size:16px}}
+
+.notes-empty { margin:48px 0; font-size:22px; }
+
+@media(max-width:767px){
+  /* The header is taller here (the nav wraps to its own row), so section jumps keep the same gap below it as on desktop. */
+  html{scroll-padding-top:143px}
+  /* The 3D scene has headroom above the bottle; pull it up so the hero starts closer to the header. */
+  .intro-section .spinner-frame{margin-top:-96px}
+  /* Center the rose on its stem, which sits a little right of the frame's middle. */
+  .rose-container video{margin-left:-18.4%}
+}
+@media(max-width:767px){
+  /* Contact on phones: centered text, and only as much space under the rose as the Contact link needs to land its heading below the header. */
+  section[aria-labelledby="contact"]{min-height:calc(100svh - 128px);align-items:flex-start;padding-bottom:24px}
+  .original-contact > div:first-child{text-align:center}
+  .original-contact .contact-address{margin-inline:auto}
+  .original-contact .socials{justify-content:center}
+}

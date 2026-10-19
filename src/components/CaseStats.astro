@@ -1,0 +1,45 @@
+---
+import type { CaseStat } from '../data/caseStudies';
+interface Props { stats: CaseStat[] }
+const { stats } = Astro.props;
+const format = (n: number, s: CaseStat) => `${s.prefix ?? ''}${n.toLocaleString('en-US', { minimumFractionDigits: s.decimals ?? 0, maximumFractionDigits: s.decimals ?? 0 })}${s.suffix ?? ''}`;
+---
+<dl class="case-stats">
+  {stats.map(stat => {
+    const max = Math.max(stat.value, stat.before ?? 0) || 1;
+    return <div class="case-stat">
+      <dt>{stat.label}</dt>
+      <dd>
+        <span class="case-stat-value" data-count={stat.value} data-from={stat.before ?? 0} data-decimals={stat.decimals ?? 0} data-prefix={stat.prefix ?? ''} data-suffix={stat.suffix ?? ''}>{format(stat.value, stat)}</span>
+        {stat.before !== undefined && <span class="case-stat-bars">
+          <span class="case-stat-bar is-before" style={`--w:${stat.before / max}`}><span>{stat.compare?.[0] ?? 'Before'}</span><b>{format(stat.before, stat)}</b></span>
+          <span class="case-stat-bar" style={`--w:${stat.value / max}`}><span>{stat.compare?.[1] ?? 'After'}</span><b>{format(stat.value, stat)}</b></span>
+        </span>}
+        {stat.note && <small>{stat.note}</small>}
+      </dd>
+    </div>;
+  })}
+</dl>
+<script>
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const format = (el: HTMLElement, n: number) => { const d = Number(el.dataset.decimals); el.textContent = `${el.dataset.prefix}${n.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d })}${el.dataset.suffix}`; };
+  const play = (group: HTMLElement) => {
+    group.classList.add('is-in');
+    if (reduce.matches) return;
+    group.querySelectorAll<HTMLElement>('[data-count]').forEach(el => {
+      const from = Number(el.dataset.from), to = Number(el.dataset.count), start = performance.now();
+      const tick = (now: number) => { const t = Math.min((now - start) / 1400, 1); format(el, from + (to - from) * (1 - (1 - t) ** 4)); if (t < 1) requestAnimationFrame(tick); };
+      requestAnimationFrame(tick);
+    });
+  };
+  const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    observer.unobserve(entry.target);
+    play(entry.target as HTMLElement);
+  }), { threshold: 0.4 });
+  document.querySelectorAll<HTMLElement>('.case-stats').forEach(group => {
+    observer.observe(group);
+    // Replay each time the case study opens.
+    group.closest('dialog')?.addEventListener('close', () => { group.classList.remove('is-in'); observer.observe(group); });
+  });
+</script>

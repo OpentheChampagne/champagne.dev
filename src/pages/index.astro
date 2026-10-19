@@ -1,0 +1,95 @@
+---
+import Base from '../layouts/Base.astro';
+import Spinner from '../components/Spinner.astro';
+import Features from '../components/Features.astro';
+import HomeNotes from '../components/HomeNotes.astro';
+// /preview/notes-empty renders this page with an empty Notes board.
+const { previewEmpty = false } = Astro.props;
+// Tells search engines who this site belongs to, so searches for the name land here.
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Felipe Castillo',
+  url: 'https://champagne.dev',
+  jobTitle: 'Senior Software Engineer',
+  worksFor: { '@type': 'Organization', name: 'ADWEEK', url: 'https://www.adweek.com' },
+  alumniOf: { '@type': 'CollegeOrUniversity', name: 'Rutgers University' },
+  address: { '@type': 'PostalAddress', addressLocality: 'New York', addressRegion: 'NY', addressCountry: 'US' },
+  knowsAbout: ['React', 'JavaScript', 'TypeScript', 'PHP', 'WordPress VIP', 'Web performance', 'Accessibility', 'Chrome extensions'],
+  sameAs: [
+    'https://github.com/openthechampagne',
+    'https://linkedin.com/in/openthechampagne',
+    'https://cursor.com/@champagne',
+    'https://news.ycombinator.com/user?id=openchampagne',
+  ],
+};
+---
+<Base noindex={previewEmpty}>
+<script type="application/ld+json" set:html={JSON.stringify(person)} />
+<section id="home" class="original-section intro-section"><div class="original-container intro-grid">
+<div class="intro-copy"><h1 class="hero-title">Hey there, I'm Felipe <span aria-hidden="true">🥀</span></h1><p class="intro-lede">I believe in elegance, precision, and designing digital experiences that feel as refined as they are functional. My work blends clean engineering with thoughtful design, bringing bold ideas to life with clarity and purpose.</p><p>By day, I'm a Senior Software Engineer at ADWEEK, where I build high-impact features for millions of readers and keep our platform performing at its best during live events and breaking news.</p><a class="original-link learn-more" href="#about">Learn More.</a></div>
+<Spinner />
+</div></section>
+<section class="original-section" aria-labelledby="about"><div class="original-container"><h2 id="about" class="original-heading">About.</h2><p class="section-dek">Code, bikes, and good pasta.</p><div class="about-grid"><div class="about-copy"><p>I’m drawn to the space where engineering and design meet: figuring out how something should work, then refining it until it feels natural to use. I enjoy the details, whether that means simplifying an interface, tracing a performance problem, or getting an interaction just right.</p><p>Outside ADWEEK, I build tools around things I use every day. Tracking packages, checking email, finding a quicker way through the browser—small frustrations tend to become side projects. I like taking something familiar and making it a little more useful, a little more considered.</p><p>Away from the keyboard, you’ll usually find me cycling through New York City or looking for good pasta.</p></div><div class="original-photo"><figure class="taped-photo"><button type="button" class="photo-pile" aria-label="Linguine vongole at Carbone in New York. Show another photo."><img src="/assets/carbone-vongole-1.jpg" alt="Linguine vongole at Carbone in New York" width="1280" height="1600" loading="lazy" data-slot="0" /><img src="/assets/carbone-vongole-2.jpg" alt="" width="1280" height="1600" loading="lazy" data-slot="1" /><img src="/assets/carbone-vongole-3.jpg" alt="" width="1280" height="1600" loading="lazy" data-slot="2" /></button><span class="sticky-note" aria-hidden="true">Linguine<br />vongole.<small>Worth the reservation.<br />Every single time.</small></span><span class="label-tape" aria-hidden="true">Carbone NYC</span></figure></div></div></div></section>
+<section class="original-section dark-section" aria-labelledby="experience"><div class="original-container experience-content"><h2 id="experience" class="original-heading">Experience.</h2>
+<article class="original-job"><div class="job-label"><h3>ADWEEK — Senior Software Engineer</h3><p>APR 2024 – PRESENT</p><p>Promoted from Software Engineer in <time datetime="2026-06">June 2026</time>.</p><a class="company-logo" href="https://www.adweek.com/" target="_blank" rel="noopener" title="Visit ADWEEK"><img src="/assets/adweek-logo.svg" alt="ADWEEK" /></a></div><div class="job-copy"><p>At ADWEEK, I work on the pages readers land on first—and the ones they keep refreshing when something big is happening. I <a class="case-mention" href="#adweek-homepage" data-case-open="adweek-homepage" aria-haspopup="dialog" title="Open the case study">rebuilt the homepage in React</a> and helped create the <a class="case-mention" href="#adweek-live" data-case-open="adweek-live" aria-haspopup="dialog" title="Open the case study">Super Bowl live blog and its homepage widget</a>. The live blog nearly doubled the previous year’s views.</p><p>Behind those experiences is work readers should never have to think about. On the <a class="case-mention" href="#adweek-edo" data-case-open="adweek-edo" aria-haspopup="dialog" title="Open the case study">EDO Super Bowl ad rankings page</a>, I fixed a rendering bug that had overwhelmed the site with video requests, then added caching for the generated markup and partner data.</p><p>More recently, I’ve been building AI summaries, key takeaways, and intelligence reports that help readers find their way into a story. I built the interfaces with a clear path back to the reporting, so a useful summary can become the start of a deeper read.</p></div></article><article class="original-job"><div class="job-label"><h3>Planit Agency — Junior Developer</h3><p>OCT 2021 – MAR 2024</p><a class="company-logo" href="https://planitagency.com/" target="_blank" rel="noopener" title="Visit Planit"><img src="/assets/planit-logo.svg" alt="Planit" /></a></div><div class="job-copy"><p>At Planit, I turned designs into animated ads, websites, and email campaigns for clients including DuPont, SourceAmerica, and the Government of Maryland. Each brand brought its own visual language, and I enjoyed figuring out how to carry that through in code and motion.</p><p>I developed more than 4,500 GSAP-powered ads, built custom WordPress components with Tailwind CSS, and produced more than 25 email campaigns a month. Working closely with creative and marketing teams meant paying attention to both the original idea and the details of the finished piece.</p><p>There was always another brand, another format, or another deadline. I learned to move between them, collaborate with designers, and deliver work that felt considered even on a busy production schedule.</p></div></article>
+</div></section>
+<section class="original-section projects-section" aria-labelledby="work"><div class="original-container"><h2 id="work" class="original-heading">Featured work.</h2><p class="section-dek">From the stories people follow to the little things that make a day easier. Selected work from ADWEEK and after hours.</p><Features /></div></section>
+<HomeNotes previewEmpty={previewEmpty} />
+<section class="original-section dark-section" aria-labelledby="contact"><div class="original-container original-contact"><div><h2 id="contact" class="contact-title">Let's make ideas <em>bloom.</em></h2><a class="original-link contact-address" href="mailto:ch@mpagne.dev">ch@mpagne.dev</a><p class="roots">Where roots grow deep</p><div class="socials"><a class="original-link social" href="https://github.com/openthechampagne">GitHub <span aria-hidden="true">↗</span></a><a class="original-link social" href="https://linkedin.com/in/openthechampagne">LinkedIn <span aria-hidden="true">↗</span></a></div></div><div class="rose-container"><video id="rose" playsinline muted preload="metadata" aria-label="A rose opening"><source src="/assets/rose-scrub.mp4" type="video/mp4" /></video></div></div></section>
+<script>
+// The About photos sit in a pile; every couple of seconds, or on a click or tap, the top one is pulled off and tucked under the rest.
+const pile = document.querySelector<HTMLButtonElement>('.photo-pile');
+const still = matchMedia('(prefers-reduced-motion: reduce)');
+if (pile) {
+ const photos = [...pile.querySelectorAll<HTMLImageElement>('img')];
+ const SHUFFLE_MS = 950, PAUSE_MS = 2000; // SHUFFLE_MS is the length of pile-shuffle in original.css
+ let visible = false, timer = 0, moving = false;
+ const auto = () => visible && !still.matches && !document.hidden;
+ const schedule = () => { clearTimeout(timer); timer = !moving && auto() ? window.setTimeout(() => auto() && shuffle(), PAUSE_MS) : 0; };
+ const shuffle = () => {
+  if (moving) return;
+  const top = photos.find(photo => photo.dataset.slot === '0')!;
+  // The rest move up a place (the next print straightens on top) while the top one is slid out and tucked under.
+  photos.forEach(photo => { if (photo !== top) photo.dataset.slot = String(Number(photo.dataset.slot) - 1); });
+  const settle = () => { top.dataset.slot = String(photos.length - 1); top.classList.remove('is-shuffling'); moving = false; schedule(); };
+  if (still.matches) return settle(); // reduced motion: a click still swaps the photo, without the slide
+  moving = true;
+  top.classList.add('is-shuffling');
+  window.setTimeout(settle, SHUFFLE_MS);
+ };
+ pile.addEventListener('click', () => { clearTimeout(timer); shuffle(); });
+ new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; schedule(); }).observe(pile);
+ document.addEventListener('visibilitychange', schedule);
+ still.addEventListener('change', schedule);
+}
+</script>
+<script>
+const rose = document.querySelector<HTMLVideoElement>('#rose');
+const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+const BLOOMED = 18;
+if (rose) {
+ // Only metadata loads with the page; buffer the full clip once the rose is about a screen away.
+ new IntersectionObserver(([entry], observer) => { if (entry.isIntersecting) { rose.preload = 'auto'; observer.disconnect(); } }, { rootMargin: '100% 0px' }).observe(rose);
+ let shown = BLOOMED, target = BLOOMED, requested = NaN, frame = 0, last = 0;
+ // Ease toward the scroll position so seeks feel continuous instead of steppy: 20% of the gap per 60Hz frame, scaled to the real frame time.
+ // A new seek before the last one lands makes Safari and Firefox restart it, so a frame skips its write while one is in flight.
+ const step = (now: number) => {
+  frame = 0;
+  const dt = last ? Math.min((now - last) / 1000, .1) : 1 / 60; last = now;
+  shown += (target - shown) * (1 - .8 ** (dt * 60));
+  if (Math.abs(target - shown) < .02) shown = target;
+  // Reassigning the same time starts another seek, so remember the last requested frame.
+  if (!rose.seeking && shown !== requested) { rose.currentTime = shown; requested = shown; }
+  if (shown !== target || rose.seeking) frame = requestAnimationFrame(step); else last = 0;
+ };
+ // Bud when the video's top enters the screen; full bloom once its middle is a bit below screen center.
+ const progress = () => { const box = rose.getBoundingClientRect(); const start = innerHeight, end = innerHeight * .6 - box.height / 2; return Math.max(0, Math.min(1, (start - box.top) / (start - end))); };
+ const sync = () => { if (!Number.isFinite(rose.duration)) return; target = reduced.matches ? BLOOMED : progress() * BLOOMED; if (!frame) frame = requestAnimationFrame(step); };
+ const init = () => { rose.pause(); target = shown = reduced.matches ? BLOOMED : progress() * BLOOMED; rose.currentTime = shown; requested = shown; };
+ if (rose.readyState >= 1) init(); else rose.addEventListener('loadedmetadata', init, { once: true });
+ reduced.addEventListener('change', sync);
+ window.addEventListener('scroll', () => { const box = rose.getBoundingClientRect(); if (box.bottom > 0 && box.top < innerHeight) sync(); }, { passive: true });
+}
+</script>
+</Base>

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://champagne.dev/sitemap-index.xml
