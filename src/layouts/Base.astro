@@ -1,0 +1,57 @@
+---
+import '../styles/site.css';
+import '../styles/original.css';
+import { getPosts } from '../lib/posts';
+interface Props { title?: string; description?: string; noindex?: boolean; }
+const { title = 'Felipe Castillo — Champagne.dev', description = 'Felipe Castillo is a Senior Software Engineer at ADWEEK in New York, building fast, thoughtful web experiences, from live events to AI features.', noindex = false } = Astro.props;
+const isNotes = Astro.url.pathname.startsWith('/notes');
+// Until there's a published note, Notes in the nav points at the homepage board instead of an empty /notes.
+const hasNotes = (await getPosts()).length > 0;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title><meta name="description" content={description} />{noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:title" content={title} /><meta property="og:description" content={description} />
+    <meta property="og:type" content="website" /><meta property="og:site_name" content="Champagne.dev" /><meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:image" content={new URL('/assets/og-image.jpg', Astro.site)} /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" /><meta property="og:image:alt" content="Felipe Castillo, Senior Software Engineer at ADWEEK, beside a champagne bottle in an ice bucket" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+    <link rel="alternate" type="application/rss+xml" title="Champagne.dev" href="/rss.xml" />
+    <link rel="preload" href="/fonts/InstrumentSerif-Regular.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="original-header"><div class="original-container header-inner">
+      <a class="original-wordmark" href="/">Champagne.dev</a>
+      <nav aria-label="Main navigation"><a href="/#home">Intro</a><a href="/#about">About</a><a href="/#experience">Experience</a><a href="/#work">Work</a><a href={hasNotes ? '/notes' : '/#notes'} data-nav="notes" aria-current={isNotes ? 'page' : undefined}>Notes</a><a href="/#contact">Contact</a></nav>
+    </div></header>
+    <main id="main"><slot /></main>
+    <footer class="original-footer"><div class="original-container">
+      <a class="footer-toast" href="#main"><span class="footer-glass" aria-hidden="true">🥂</span> <span class="footer-long">Pop back to the top</span><span class="footer-short">Top</span> <span class="footer-up" aria-hidden="true">↑</span></a>
+      <p class="footer-fine">© {new Date().getFullYear()} Felipe Castillo · <a class="original-link" href="https://github.com/openthechampagne/champagne.dev">Source <span aria-hidden="true">↗</span></a></p>
+    </div></footer>
+    <script>
+      const header = document.querySelector<HTMLElement>('.original-header');
+      const darkSections = document.querySelectorAll<HTMLElement>('.dark-section');
+      let scheduled = false;
+      // On the homepage, underline the nav link for the section being read (the Notes link covers the #notes board).
+      const spy = ['home', 'about', 'experience', 'work', 'notes', 'contact']
+        .map(id => ({ section: document.getElementById(id), link: header?.querySelector<HTMLAnchorElement>(id === 'notes' ? 'nav a[data-nav="notes"]' : `nav a[href="/#${id}"]`) }))
+        .filter((entry): entry is { section: HTMLElement; link: HTMLAnchorElement } => !!entry.section && !!entry.link);
+      const spyUpdate = () => {
+        if (!spy.length) return;
+        const line = (header?.offsetHeight || 60) + innerHeight * 0.3;
+        const atBottom = innerHeight + scrollY >= document.documentElement.scrollHeight - 4;
+        const current = atBottom ? spy[spy.length - 1] : spy.filter(entry => entry.section.getBoundingClientRect().top <= line).pop();
+        spy.forEach(entry => entry === current ? entry.link.setAttribute('aria-current', 'location') : entry.link.removeAttribute('aria-current'));
+      };
+      const update = () => { scheduled=false; const y=(header?.offsetHeight || 60)/2; header?.classList.toggle('on-dark', [...darkSections].some(section=>{const box=section.getBoundingClientRect();return box.top<=y && box.bottom>y;})); spyUpdate(); };
+      window.addEventListener('scroll',()=>{if(!scheduled){scheduled=true;requestAnimationFrame(update);}},{passive:true});
+      update();
+    </script>
+  </body>
+</html>

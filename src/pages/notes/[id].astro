@@ -1,0 +1,29 @@
+---
+import { render } from 'astro:content';
+import '../../styles/notes.css';
+import Base from '../../layouts/Base.astro';
+import { getPosts, formatDate } from '../../lib/posts';
+export async function getStaticPaths() { return (await getPosts()).map(post => ({ params: { id: post.id }, props: { post } })); }
+const { post } = Astro.props;
+const { Content } = await render(post);
+const updated = post.data.updated && post.data.updated > post.data.date ? post.data.updated : undefined;
+const minutes = Math.max(1, Math.round((post.body ?? '').split(/\s+/).length / 230));
+---
+<Base title={`${post.data.title} — Champagne.dev`} description={post.data.description}>
+<article class="original-container nb-article">
+  <header class="nb-head">
+    <div>
+      <h1 class="nb-hed">{post.data.title}</h1>
+      <p class="nb-dek">{post.data.description}</p>
+    </div>
+    <aside aria-hidden="true" style="transform: rotate(4deg);"><span class="nb-stamp">Filed<small>{formatDate(post.data.date)}</small></span>{updated && <span class="nb-stamp nb-stamp-updated">Updated<small>{formatDate(updated)}</small></span>}</aside>
+  </header>
+  <div class="nb-meta">
+    <span class="nb-label">By Felipe Castillo</span>
+    <time class="nb-label" datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+    {updated && <span class="nb-label">Updated <time datetime={updated.toISOString()}>{formatDate(updated)}</time></span>}
+    <span class="nb-label">{minutes} min read</span>
+  </div>
+  <div class="nb-prose"><Content /></div>
+</article>
+</Base>

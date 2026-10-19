@@ -1,0 +1,7 @@
+---
+import Home from '../index.astro';
+export function getStaticPaths() {
+  return [{ params: { state: 'notes-empty' } }];
+}
+---
+<Home previewEmpty={true} />

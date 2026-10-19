@@ -1,0 +1,24 @@
+---
+import HomepageComparison from './HomepageComparison.astro';
+import LiveBlogPreview from './LiveBlogPreview.astro';
+import type { caseStudies } from '../data/caseStudies';
+interface Props { study: (typeof caseStudies)[number] }
+const { study } = Astro.props;
+---
+<article class:list={['case-card', `case-${study.theme}`]}>
+    <a class="case-open" href={`#${study.id}`} data-case-open={study.id} aria-haspopup="dialog">
+      <div class="case-visual" aria-hidden="true">
+        {study.beforeImage ? <HomepageComparison before={study.beforeImage} after={study.image} /> : study.theme === 'live' ? <LiveBlogPreview /> : study.image ? <img src={study.image} alt="" width="1440" height="1000" loading="lazy" /> : <div class="case-cover"><img src="/assets/adweek-logo.svg" alt="" width="180" height="80" /><span>{'The ads.\nThe outcomes.'}</span>{study.theme === 'edo' && <div class="case-gauge"><div><small>EDO Outcome Score · #1 ai.com</small><b>910</b></div><i><span></span></i></div>}</div>}
+      </div>
+      <div class="case-card-copy"><h3>{study.title}</h3><p>{study.description}</p><span class="case-read">View case study <span aria-hidden="true">↗</span></span></div>
+    </a>
+  </article>
+<script>
+  // Fill the EDO gauge the first time the card scrolls into view, like the gauges on ADWEEK's EDO page.
+  const gaugeObserver = new IntersectionObserver(entries => entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.add('is-in');
+    gaugeObserver.unobserve(entry.target);
+  }), { threshold: 0.5 });
+  document.querySelectorAll('.case-gauge').forEach(gauge => gaugeObserver.observe(gauge));
+</script>

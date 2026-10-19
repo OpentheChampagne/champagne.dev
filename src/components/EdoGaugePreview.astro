@@ -1,0 +1,50 @@
+---
+// EDO's Super Bowl LX leaderboard in the style of the gauges on ADWEEK's EDO page.
+// Scores are EDO's published TV Outcomes scores; each bar is scaled to the top score.
+const ads = [
+  { brand: 'ai.com', score: 910 },
+  { brand: 'Universal Pictures', score: 909 },
+  { brand: 'Lay’s', score: 707 },
+  { brand: 'Netflix', score: 569 },
+  { brand: 'Dunkin’', score: 497 },
+];
+const top = Math.max(...ads.map(ad => ad.score));
+---
+<div class="edo-demo">
+  <div class="edo-demo-top"><img src="/assets/adweek-logo.svg" alt="" width="80" height="32" /><span>EDO Outcome Score</span></div>
+  <ol class="edo-demo-list">
+    {ads.map((ad, i) => <li style={`--fill:${ad.score / top}; --i:${i}`}>
+      <span class="edo-demo-rank">#{i + 1}</span>
+      <strong>{ad.brand}</strong>
+      <span class="edo-demo-score">{ad.score}</span>
+      <span class="edo-demo-gauge"><span></span></span>
+    </li>)}
+  </ol>
+</div>
+<style>
+.edo-demo{width:100%;height:100%;padding:22px 24px;box-sizing:border-box;background:#fff;color:#212529;font-family:var(--sans,system-ui);overflow:hidden}
+.edo-demo-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.edo-demo-top img{filter:brightness(0);width:72px;height:28px}
+.edo-demo-top span{font:800 10px/1 var(--sans,system-ui);letter-spacing:.04em;text-transform:uppercase}
+.edo-demo-list{list-style:none;margin:0;padding:0;display:grid}
+.edo-demo-list li{display:grid;grid-template-columns:34px 1fr auto;grid-template-rows:auto auto;column-gap:10px;align-items:center;padding:7px 0;border-top:1px solid #e9ecef}
+.edo-demo-rank{grid-row:span 2;font:italic 400 22px/1 var(--serif);color:#f5a3b8}
+.edo-demo-list strong{font:600 14px/1.2 var(--sans,system-ui);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.edo-demo-score{font:700 20px/1 var(--sans,system-ui);color:#f26a5c;text-align:right;font-variant-numeric:tabular-nums}
+.edo-demo-gauge{grid-column:2 / -1;height:8px;border-radius:4px;background:#e9ecef;overflow:hidden;margin-top:5px}
+.edo-demo-gauge span{display:block;height:100%;border-radius:inherit;background:#28a745;transform-origin:left;transform:scaleX(var(--fill))}
+@media(prefers-reduced-motion:no-preference){
+  .edo-demo:not(.is-in) .edo-demo-gauge span{transform:scaleX(0)}
+  .edo-demo-gauge span{transition:transform .8s ease-out;transition-delay:calc(var(--i) * 90ms)}
+}
+@media(max-width:640px){.edo-demo{padding:16px 18px}.edo-demo-list li{padding:5px 0}.edo-demo-list strong{font-size:12px}.edo-demo-score{font-size:16px}}
+</style>
+<script>
+  // Fill the gauges the first time each board scrolls into view, like the EDO page does.
+  const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.add('is-in');
+    observer.unobserve(entry.target);
+  }), { threshold: 0.3 });
+  document.querySelectorAll('.edo-demo').forEach(board => observer.observe(board));
+</script>

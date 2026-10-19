@@ -1,0 +1,40 @@
+---
+interface Props { before: string; after: string; interactive?: boolean; }
+const { before, after, interactive = false } = Astro.props;
+---
+<div class:list={['homepage-comparison', { 'comparison-interactive': interactive }]}>
+  <div class="comparison-stage">
+    <img src={after} alt={interactive ? 'ADWEEK homepage after the redesign' : ''} width="1440" height="1000" loading="lazy" />
+    <img class="comparison-before" src={before} alt={interactive ? 'ADWEEK homepage before the redesign, archived April 2024' : ''} width="1024" height="768" loading="lazy" />
+    <span class="comparison-label comparison-label-before">Before</span><span class="comparison-label comparison-label-after">After</span>
+    <span class="comparison-divider" aria-hidden="true"><span>↔</span></span>
+    {interactive && <input type="range" min="0" max="100" value="50" aria-label="Amount of the old homepage shown" aria-valuetext="50% before, 50% after" />}
+  </div>
+  {interactive && <p class="comparison-help">Drag to compare, or use the arrow keys.</p>}
+</div>
+<style>
+@property --comparison-position { syntax:'<percentage>'; inherits:true; initial-value:50%; }
+.homepage-comparison{width:100%;--comparison-position:50%}.comparison-stage{position:relative;width:100%;aspect-ratio:1.44;overflow:hidden;background:#fff;isolation:isolate}.comparison-stage>img{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}.comparison-before{clip-path:inset(0 calc(100% - var(--comparison-position)) 0 0)}.comparison-label{position:absolute;top:12px;z-index:1;background:#f7f6f3ed;color:#282828;padding:6px 10px;font:12px/1.2 system-ui;border:1px solid #ddd}.comparison-label-before{left:12px}.comparison-label-after{right:12px}.comparison-divider{position:absolute;inset-block:0;left:var(--comparison-position);width:2px;background:#fff;box-shadow:0 0 8px #0005;transform:translateX(-50%)}.comparison-divider>span{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#f7f6f3;color:#282828;font:22px/1 system-ui;box-shadow:0 2px 12px #0003}.comparison-stage input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;z-index:2;touch-action:pan-y}.comparison-stage:has(input:focus-visible){outline:3px solid #486332;outline-offset:-3px}.comparison-help{font:12px/1.5 system-ui;color:var(--muted);margin:12px 0 0}
+@media(prefers-reduced-motion:no-preference){.homepage-comparison:not([data-manual]){animation:homepage-reveal 8s ease-in-out infinite}}
+@keyframes homepage-reveal{0%,12%,100%{--comparison-position:50%}30%,42%{--comparison-position:90%}65%,80%{--comparison-position:10%}}
+</style>
+<script>
+ document.querySelectorAll<HTMLElement>('.comparison-interactive').forEach(comparison => {
+   const slider = comparison.querySelector<HTMLInputElement>('input')!;
+   const stop = () => {
+     if (comparison.hasAttribute('data-manual')) return;
+     const value = parseFloat(getComputedStyle(comparison).getPropertyValue('--comparison-position')) || 50;
+     comparison.style.setProperty('--comparison-position', `${value}%`);
+     comparison.setAttribute('data-manual', '');
+     slider.value = String(Math.round(value));
+     slider.setAttribute('aria-valuetext', `${slider.value}% before, ${100 - Number(slider.value)}% after`);
+   };
+   slider.addEventListener('pointerdown', stop);
+   slider.addEventListener('focus', stop);
+   slider.addEventListener('input', () => {
+     comparison.setAttribute('data-manual', '');
+     comparison.style.setProperty('--comparison-position', `${slider.value}%`);
+     slider.setAttribute('aria-valuetext', `${slider.value}% before, ${100 - Number(slider.value)}% after`);
+   });
+ });
+</script>

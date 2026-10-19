@@ -1,0 +1,330 @@
+---
+// A live replica of the extension popup. On a loop, a package is typed in,
+// Track is pressed, and that package plays through a shipment (script
+// below); the others sit still. The
+// tracking numbers are carriers' public sample numbers, not anyone's
+// real package. Decorative: hidden from assistive tech, which gets the
+// hero copy instead.
+import { STATUS_ICONS, ICONS } from "../lib/packageTrackIcons";
+
+const rows = [
+  { title: "New headphones", number: "9400111899223197428490", status: "pre_transit", detail: "Shipping label created", story: true },
+  { title: "Running shoes", number: "1Z999AA10123456784", status: "out_for_delivery", detail: "Out for delivery today" },
+  { title: "Birthday gift", number: "612345678901", status: "in_transit", detail: "Arrived at FedEx location" },
+  { title: "Coffee grinder", number: "C11111111111111", status: "delivered", detail: "Left at front door" }
+];
+const label = (status: string) => status.replace(/_/g, " ");
+---
+
+<div class="mock" aria-hidden="true">
+  <div class="mock-window">
+    <div class="mock-header">
+      <div class="mock-brand"><img src="/assets/packagetrack-icon.png" alt="" width="17" height="17" /> PackageTrack</div>
+      <span class="mock-icon-btn" set:html={ICONS.refresh} />
+    </div>
+    <div class="mock-form">
+      <div class="mock-input"><span class="typed" data-type="name"></span><span class="ph">Package Name</span></div>
+      <div class="mock-add-row">
+        <div class="mock-input"><span class="typed" data-type="number"></span><span class="ph">Tracking Number</span></div>
+        <div class="mock-select">Carrier</div>
+        <div class="mock-track">Track</div>
+      </div>
+    </div>
+    <div class="mock-list">
+      {
+        rows.map((row) => (
+          <div class:list={["mock-row", { "is-story": row.story }]} data-status={row.status}>
+            <div class="chip">
+              {Object.entries(STATUS_ICONS).map(([status, svg]) => (
+                <span class="chip-glyph" data-glyph={status} set:html={svg} />
+              ))}
+            </div>
+            <div class="row-body">
+              <div class="row-title">{row.title}</div>
+              <div class="row-number">
+                {row.number} <span set:html={ICONS.copy} />
+              </div>
+              <div class="row-status">
+                <span class="pill">{label(row.status)}</span>
+                <span class="detail">{row.detail}</span>
+                <span class="row-arrow" set:html={ICONS.arrow} />
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  @font-face { font-family:"PackageTrack Inter"; src:url('/assets/packagetrack-inter-400.woff2') format('woff2'); font-weight:400; font-display:swap; }
+  @font-face { font-family:"PackageTrack Inter"; src:url('/assets/packagetrack-inter-600.woff2') format('woff2'); font-weight:600; font-display:swap; }
+
+  .mock {
+    --bg:#f2f2f5; --surface:#fff; --line:#e3e3e8; --ink:#0b0b0d; --ink-soft:#6e6e76; --ink-faint:#a3a3ab;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --status-pre_transit:#ac7c05; --status-in_transit:#2563eb; --status-out_for_delivery:#7c3aed; --status-delivered:#16a34a; --status-unknown:#8e8e93;
+    --shadow-lift:0 2px 4px #0000000f,0 24px 60px #041e6e47;
+    font-family:"PackageTrack Inter",sans-serif;
+    position: relative;
+    width:380px;
+    margin-inline: auto;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--ink);
+    text-align: left;
+  }
+
+  .mock-window {
+    background: var(--bg);
+    border-radius: 16px;
+    padding-bottom: 14px;
+    box-shadow: var(--shadow-lift), 0 0 0 1px rgb(255 255 255 / 0.25);
+    overflow: hidden;
+  }
+
+  .mock-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px 12px;
+  }
+
+  .mock-brand {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 14.5px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  .mock-brand img {
+    border-radius: 4px;
+  }
+
+  .mock-icon-btn {
+    display: inline-flex;
+    width: 14px;
+    color: var(--ink-faint);
+  }
+
+  .mock-form,
+  .mock-list {
+    margin: 0 14px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .mock-form {
+    margin-bottom: 12px;
+  }
+
+  .mock-input,
+  .mock-select {
+    padding: 9px 12px;
+    color: var(--ink-faint);
+  }
+
+  .mock-form > .mock-input {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .mock-add-row {
+    display: flex;
+  }
+
+  .mock-add-row .mock-input {
+    flex: 1;
+  }
+
+  .mock-select {
+    border-left: 1px solid var(--line);
+    color: var(--ink-soft);
+  }
+
+  .mock-track {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    background: #0a54ff;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .mock-row {
+    display: flex;
+    gap: 10px;
+    padding: 11px 12px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .mock-row:last-child {
+    border-bottom: 0;
+  }
+
+  .chip {
+    position: relative;
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    margin-top: 1px;
+    border-radius: 50%;
+    background: var(--chip, var(--status-unknown));
+    color: #fff;
+    transition: background-color 0.35s ease;
+  }
+
+  .chip-glyph {
+    grid-area: 1 / 1;
+    display: flex;
+    width: 15px;
+    height: 15px;
+    opacity: 0;
+    scale: 0.4;
+    transition: opacity 0.3s ease, scale 0.45s var(--pop, ease);
+  }
+  .typed { color: var(--ink, #111); white-space: nowrap; }
+  .mock-input.has-text .ph { display: none; }
+  .mock-input.is-active .typed::after { content: ""; display: inline-block; width: 1px; height: 1em; margin-left: 1px; vertical-align: -2px; background: currentColor; animation: caret 1s steps(1) infinite; }
+  .mock-track { transition: filter 0.15s ease, transform 0.15s ease; }
+  .mock-track.is-pressed { filter: brightness(0.82); transform: scale(0.94); }
+  .mock-row.is-story { max-height: 90px; overflow: hidden; transition: opacity 0.4s ease, transform 0.5s var(--spring, ease), max-height 0.5s var(--spring, ease), padding 0.5s var(--spring, ease); }
+  .mock-row.is-story.is-hidden { opacity: 0; transform: translateY(-8px); max-height: 0; padding-block: 0; border-bottom-width: 0; }
+  .mock-row.is-story.bump .chip { animation: package-chip 0.6s var(--pop, ease); }
+  .pill, .detail { transition: opacity 0.25s ease; }
+  @keyframes caret { 50% { opacity: 0; } }
+
+  .row-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .row-title {
+    font-weight: 600;
+  }
+
+  .row-number {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 3px;
+    color: var(--ink-faint);
+    font: 11px var(--mono);
+  }
+
+  .row-number :global(svg) {
+    width: 11px;
+    height: 11px;
+  }
+
+  .row-status {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 7px;
+  }
+
+  .pill {
+    flex: none;
+    padding: 2.5px 7px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--chip, var(--status-unknown));
+    background: color-mix(in srgb, var(--chip, var(--status-unknown)) 15%, var(--surface));
+    transition: color 0.35s ease, background-color 0.35s ease;
+  }
+
+  .detail {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    color: var(--ink-soft);
+    font-size: 11.5px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .row-arrow {
+    display: flex;
+    width: 12px;
+    color: var(--ink-faint);
+  }
+
+  .mock-row[data-status="pre_transit"] { --chip: var(--status-pre_transit); }
+  .mock-row[data-status="in_transit"] { --chip: var(--status-in_transit); }
+  .mock-row[data-status="out_for_delivery"] { --chip: var(--status-out_for_delivery); }
+  .mock-row[data-status="delivered"] { --chip: var(--status-delivered); }
+
+  .mock-row[data-status="pre_transit"] [data-glyph="pre_transit"],
+  .mock-row[data-status="in_transit"] [data-glyph="in_transit"],
+  .mock-row[data-status="out_for_delivery"] [data-glyph="out_for_delivery"],
+  .mock-row[data-status="delivered"] [data-glyph="delivered"] {
+    opacity: 1;
+    scale: 1;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+  }
+  @keyframes package-chip { 0%, 100% { transform:scale(1); } 35% { transform:scale(.82); } }
+</style>
+<script>
+  const root = document.querySelector<HTMLElement>('.mock');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  if (root && !reduced.matches) {
+    const q = <T extends HTMLElement>(sel: string) => root.querySelector<T>(sel)!;
+    const name = q('[data-type="name"]'), number = q('[data-type="number"]'), track = q('.mock-track');
+    const story = q('.is-story'), pill = story.querySelector<HTMLElement>('.pill')!, detail = story.querySelector<HTMLElement>('.detail')!;
+    const stages = [
+      ['pre_transit', 'Shipping label created'],
+      ['in_transit', 'Arrived at USPS facility'],
+      ['out_for_delivery', 'Out for delivery today'],
+      ['delivered', 'Left at front door'],
+    ];
+    let visible = false;
+    let resume: (() => void) | null = null;
+    new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; if (visible) resume?.(); }).observe(root);
+    const whenVisible = () => visible ? Promise.resolve() : new Promise<void>((resolve) => { resume = () => { resume = null; resolve(); }; });
+    // Every pause also waits for the mock to be on screen, so the story freezes mid-step when scrolled away.
+    const wait = async (ms: number) => { await new Promise((resolve) => setTimeout(resolve, ms)); await whenVisible(); };
+    const type = async (el: HTMLElement, text: string, speed: number) => {
+      el.parentElement!.classList.add('is-active');
+      el.parentElement!.classList.add('has-text');
+      for (let i = 1; i <= text.length; i++) { el.textContent = text.slice(0, i); await wait(speed); }
+      el.parentElement!.classList.remove('is-active');
+    };
+    // Empty fields fall back to their placeholders.
+    const clear = () => { for (const el of [name, number]) { el.textContent = ''; el.parentElement!.classList.remove('has-text'); } };
+    const stage = ([status, text]: string[]) => {
+      story.dataset.status = status;
+      pill.textContent = status.replace(/_/g, ' ');
+      detail.textContent = text;
+      story.classList.remove('bump'); void story.offsetWidth; story.classList.add('bump');
+    };
+    (async () => {
+      for (;;) {
+        await whenVisible();
+        clear();
+        story.classList.add('is-hidden');
+        await wait(600);
+        await type(name, 'New headphones', 70);
+        await wait(250);
+        await type(number, '9400111899223197428490', 45);
+        await wait(350);
+        track.classList.add('is-pressed'); await wait(180); track.classList.remove('is-pressed');
+        clear();
+        stage(stages[0]); story.classList.remove('is-hidden');
+        for (const next of stages.slice(1)) { await wait(1500); stage(next); }
+        await wait(2600);
+      }
+    })();
+  }
+</script>

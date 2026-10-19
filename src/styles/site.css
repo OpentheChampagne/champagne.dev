@@ -1,0 +1,569 @@
+@font-face {
+  font-family: Instrument;
+  src: url("/fonts/InstrumentSerif-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: Instrument;
+  src: url("/fonts/InstrumentSerif-Italic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+/* Caveat and Newsreader, self-hosted (Latin subsets from Google Fonts; licenses in /fonts/OFL-*.txt). */
+@font-face {
+  font-family: Caveat;
+  src: url("/fonts/Caveat-latin-ext.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 500 700;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: Caveat;
+  src: url("/fonts/Caveat-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 500 700;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: Newsreader;
+  src: url("/fonts/Newsreader-latin-ext.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: Newsreader;
+  src: url("/fonts/Newsreader-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: Newsreader;
+  src: url("/fonts/Newsreader-Italic-latin-ext.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 400 500;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: Newsreader;
+  src: url("/fonts/Newsreader-Italic-latin.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 400 500;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+:root {
+  color-scheme: light dark;
+  --bg: #f7f6f2;
+  --surface: #fffefa;
+  --inset: #efeee9;
+  --ink: #252721;
+  --muted: #696b62;
+  --line: #dedfd5;
+  --accent: #657744;
+  --accent-soft: #e6ebdc;
+  --light: rgb(222 234 192 / 0.35);
+  --serif: Instrument, Georgia, serif;
+  --sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --pop: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --spring: linear(
+      0,
+      0.13,
+      0.4,
+      0.66,
+      0.85,
+      0.97,
+      1.025,
+      1.03,
+      1.016,
+      1.004,
+      1
+    );
+    --pop: linear(0, 0.26, 0.7, 1.04, 1.16, 1.12, 1.035, 0.98, 0.986, 1.006, 1);
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #191b17;
+    --surface: #22251f;
+    --inset: #2b2e27;
+    --ink: #eeeee6;
+    --muted: #b2b6a8;
+    --line: #3c4035;
+    --accent: #bbce97;
+    --accent-soft: #35432c;
+    --light: rgb(185 211 147 / 0.1);
+  }
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 30px;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 15px/1.65 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  /* Short pages (404, an empty /notes): main grows so the footer sits at the bottom of the window, with no page colour under it. */
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+main {
+  flex: 1 0 auto;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button {
+  font: inherit;
+  color: inherit;
+}
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 5px;
+  border-radius: 4px;
+}
+::selection {
+  background: var(--accent-soft);
+}
+h1,
+h2,
+h3,
+p,
+figure {
+  margin: 0;
+}
+h1,
+h2,
+h3 {
+  font-weight: 400;
+}
+h1,
+h2 {
+  font-family: var(--serif);
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+}
+h1 {
+  font-size: clamp(56px, 6.7vw, 88px);
+}
+h2 {
+  font-size: clamp(42px, 4.8vw, 62px);
+}
+em {
+  font-weight: 400;
+  color: var(--accent);
+}
+p {
+  color: var(--muted);
+}
+.wrap {
+  width: min(1120px, calc(100% - 80px));
+  margin-inline: auto;
+}
+.skip {
+  position: absolute;
+  top: -100px;
+  z-index: 60; /* above the fixed header (50) so it's visible when focused */
+  background: var(--surface);
+  padding: 10px;
+}
+.skip:focus {
+  top: 10px;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100px;
+  border-bottom: 1px solid var(--line);
+  gap: 24px;
+}
+.wordmark {
+  font: 30px var(--serif);
+  letter-spacing: -1px;
+  white-space: nowrap;
+}
+.wordmark > span:first-child {
+  color: var(--muted);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  font-size: 13px;
+}
+nav a:hover {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+nav [aria-current] {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.hero {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  align-items: center;
+  gap: 35px;
+  padding-block: 90px 88px;
+  min-height: 640px;
+}
+
+.hero-lede {
+  font-size: 16px;
+  line-height: 1.85;
+  max-width: 470px;
+  margin-top: 25px;
+}
+
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  font: 600 15px/1 var(--sans, Inter, system-ui, sans-serif);
+  letter-spacing: .01em;
+  transition: transform .2s ease, background-color .2s ease;
+}
+.button:hover { transform: translateY(-1px); }
+
+.spinner-frame {
+  min-width: 0;
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.spinner-scene {
+  height: 395px;
+  width: 100%;
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(
+    ellipse at center,
+    var(--accent-soft),
+    transparent 65%
+  );
+}
+.spinner-scene canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: pan-y;
+}
+.spinner-fallback {
+  font: 40px/1.1 var(--serif);
+  text-align: center;
+  transition: opacity .45s ease, visibility 0s linear .45s;
+}
+.spinner-fallback > * { display: block; padding: .06em .2em .14em; margin: -.06em -.2em -.14em; } /* room for italic overhang and descenders, which the gradient text fill would otherwise clip */
+/* Hand off to the bottle with a fade rather than a cut. */
+.spinner-scene[data-ready] .spinner-fallback {
+  opacity: 0;
+  visibility: hidden;
+}
+/* While the bottle loads: the lines settle in, then a champagne-gold glint sweeps across them. */
+@media (prefers-reduced-motion: no-preference) {
+  .spinner-fallback > * {
+    background: linear-gradient(100deg, currentColor 40%, #c9a64a 50%, currentColor 60%) 100% 0 / 250% 100% no-repeat; /* kept within 0–100% so the fill always covers the text; outside that range part of the text goes transparent */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: celebrate-in .6s cubic-bezier(.2,.7,.2,1) both, celebrate-glint 2s ease-in-out .8s infinite;
+  }
+  .spinner-fallback > em { animation-delay: .25s, 1.05s; }
+}
+@keyframes celebrate-in { from { opacity: 0; transform: translateY(6px); } }
+@keyframes celebrate-glint { 0% { background-position: 100% 0; } 60%, 100% { background-position: 0% 0; } }
+
+.section {
+  padding-block: 70px;
+  border-top: 1px solid var(--line);
+}
+
+.about {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 100px;
+  align-items: center;
+  padding-block: 95px;
+}
+.about h2 {
+  font-size: 48px;
+  margin-bottom: 25px;
+}
+.about p {
+  font-size: 14px;
+  max-width: 570px;
+  margin-bottom: 18px;
+}
+
+.pasta {
+  padding: 12px 12px 8px;
+  background: var(--surface);
+  transform: rotate(5deg);
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 25px #00000008;
+  max-width: 280px;
+  justify-self: center;
+}
+.pasta img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  display: block;
+}
+.pasta figcaption {
+  text-align: center;
+  font: 20px var(--serif);
+  padding-top: 12px;
+}
+
+.contact {
+  border-radius: 24px;
+  background: var(--inset);
+  padding: 55px 55px 35px;
+  margin-block: 25px 60px;
+}
+.contact h2 {
+  font-size: clamp(50px, 7.5vw, 90px);
+  position: relative;
+}
+.contact h2 > span {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  color: var(--accent);
+  font: 115px var(--sans);
+  transform: rotate(15deg);
+}
+
+.contact a:hover {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  border-top: 1px solid var(--line);
+  padding-block: 25px;
+  font-size: 10px;
+  color: var(--muted);
+}
+.journal-page {
+  padding-block: 90px;
+  min-height: 72vh;
+}
+
+.article {
+  max-width: 760px;
+  padding-block: 60px 100px;
+}
+.article header {
+  margin-block: 40px;
+}
+.article h1 {
+  font-size: 64px;
+}
+.tags {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+}
+.tags span {
+  font-size: 11px;
+  padding: 3px 10px;
+  background: var(--inset);
+  border-radius: 20px;
+}
+
+@media (max-width: 950px) {
+  .wrap {
+    width: calc(100% - 48px);
+  }
+  .hero {
+    gap: 10px;
+    padding-block: 65px;
+  }
+  .hero h1 {
+    font-size: 65px;
+  }
+  .spinner-scene {
+    height: 330px;
+  }
+  .about {
+    gap: 45px;
+  }
+  .about h2 {
+    font-size: 42px;
+  }
+  .contact {
+    padding: 40px;
+  }
+
+}
+@media (max-width: 639px) {
+  .wrap {
+    width: calc(100% - 36px);
+  }
+  .header {
+    min-height: 85px;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding-block: 16px;
+  }
+  .wordmark {
+    font-size: 27px;
+  }
+
+  nav {
+    gap: 17px;
+    font-size: 11px;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding-top: 45px;
+    padding-bottom: 40px;
+    gap: 20px;
+  }
+  .hero h1 {
+    font-size: 60px;
+  }
+  .hero-lede {
+    font-size: 14px;
+  }
+
+  .spinner-scene {
+    height: 310px;
+  }
+
+  .section {
+    padding-block: 45px;
+  }
+
+  .about {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .about h2 {
+    font-size: 42px;
+  }
+  .pasta {
+    width: 230px;
+    margin-bottom: 10px;
+  }
+  .pasta img {
+    height: 230px;
+  }
+
+  .contact {
+    padding: 32px 24px;
+    margin-block: 15px 40px;
+  }
+  .contact h2 {
+    font-size: 54px;
+  }
+  .contact h2 > span {
+    font-size: 43px;
+    right: 0;
+    top: -40px;
+  }
+
+  .footer {
+    flex-wrap: wrap;
+    font-size: 9px;
+    gap: 10px;
+  }
+  .footer > span:nth-child(2) {
+    display: none;
+  }
+  .footer > a {
+    margin-left: auto;
+  }
+  .journal-page {
+    padding-block: 55px;
+  }
+  .journal-page h1,
+  .article h1 {
+    font-size: 54px;
+  }
+
+  .article {
+    padding-block: 40px 70px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .feature-card:hover {
+    transform: none !important;
+  }
+  .feature-card::after {
+    display: none !important;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 800px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding-block: 55px 40px;
+  }
+
+  .hero h1 {
+    font-size: 72px;
+  }
+  .spinner-scene {
+    height: 340px;
+  }
+  .about {
+    gap: 28px;
+  }
+  .about h2 {
+    font-size: 36px;
+  }
+}

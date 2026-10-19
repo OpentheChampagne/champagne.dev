@@ -1,0 +1,16 @@
+---
+import HomepageComparison from './HomepageComparison.astro';
+import CaseStats from './CaseStats.astro';
+import EdoGaugePreview from './EdoGaugePreview.astro';
+import type { caseStudies } from '../data/caseStudies';
+interface Props { study: (typeof caseStudies)[number] }
+const { study } = Astro.props;
+---
+<h2 id={`${study.id}-title`} class="case-title">{study.title}<em>.</em></h2>
+<p class="case-dek">{study.description}</p>
+{study.theme === 'edo' && <figure class="case-media case-edo-board"><EdoGaugePreview /><figcaption>EDO’s top five Super Bowl LX ads by Outcome Score, in the style of the gauges on ADWEEK’s EDO page. Bars are scaled to the top score.</figcaption></figure>}
+{study.motionMedia?.map(media => <figure class="case-media" style={'width' in media ? `max-width: min(100%, ${media.width}px); margin-inline: auto;` : undefined}><picture><source media="(prefers-reduced-motion: reduce)" srcset={media.still} /><img src={media.src} alt={media.alt} loading="lazy" decoding="async" /></picture><figcaption>{media.caption}</figcaption></figure>)}
+{study.beforeImage && <figure class="case-media"><HomepageComparison before={study.beforeImage} after={study.image} interactive /><figcaption>April 2024 and the current homepage. The archive retains the empty advertising space. <a href={study.beforeSource} target="_blank" rel="noopener">View archived version ↗</a></figcaption></figure>}
+{study.image && !study.beforeImage && !study.motionMedia && <figure class="case-media"><a href={study.image} target="_blank" rel="noopener" aria-label={`Open full screenshot of ${study.title}`}><img src={study.image} alt={study.imageAlt} width="1440" height="1000" loading="lazy" /></a><figcaption>{study.caption}</figcaption></figure>}
+{study.stats.length > 0 && <CaseStats stats={study.stats} />}
+<div class="case-story"><section><h3>The project</h3>{study.context.map(p => <p>{p}</p>)}</section><section><h3>My part</h3>{study.contribution.map(p => <p>{p}</p>)}</section></div>

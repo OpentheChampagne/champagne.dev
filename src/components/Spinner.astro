@@ -1,0 +1,17 @@
+<div class="spinner-frame">
+  <div id="champagne-scene" class="spinner-scene" role="img" aria-label="A slowly turning champagne bottle in an ice bucket">
+    <span class="spinner-fallback"><span>A little something</span><em>to celebrate.</em></span>
+  </div>
+</div>
+<script>
+  const host = document.querySelector<HTMLElement>('#champagne-scene');
+  if (host) {
+    const observer = new IntersectionObserver(async ([entry]) => {
+      if (!entry.isIntersecting) return;
+      observer.disconnect();
+      try { const { mountSpinner } = await import('../scripts/spinner'); await mountSpinner(host); }
+      catch { host.setAttribute('aria-label', 'A little something to celebrate.'); }
+    }, { rootMargin: '100px' });
+    observer.observe(host);
+  }
+</script>
